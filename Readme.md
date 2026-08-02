@@ -1,6 +1,6 @@
 ## Start
 
-npx create-next-app@latest mail-cms
+npx create-next-app@latest 
 
 npm install prisma @prisma/client
 npm install zod bcrypt
