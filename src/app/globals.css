@@ -1,4 +1,11 @@
-
+@import "../styles/reset.css";
+@import "../styles/variables.css";
+@import "../styles/typography.css";
+@import "../styles/layout.css";
+@import "../styles/buttons.css";
+@import "../styles/cards.css";
+@import "../styles/header.css";
+@import "../styles/theme.css";
 
 body {
   background: var(--background);
