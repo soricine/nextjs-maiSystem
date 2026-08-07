@@ -7,27 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  STAFF
+  CUSTOMER
+}
+
 model User {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
   password  String
 
-  posts     Post[]
-
-  createdAt DateTime @default(now())
-}
-
-model Post {
-  id        String   @id @default(cuid())
-
-  title     String
-  slug      String   @unique
-  content   String   @db.Text
-  published Boolean  @default(false)
-
-  authorId  String
-  author    User @relation(fields: [authorId], references: [id])
+  role      Role     @default(CUSTOMER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
