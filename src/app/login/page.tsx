@@ -1,51 +1,63 @@
-import styles from "./login.module.css";
+"use client";
+
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 
 export default function LoginPage() {
+  const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+
+    setError("");
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      setError("Invalid email or password.");
+      return;
+    }
+
+    router.push("/dashboard");
+  }
+
   return (
-    <main className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Transfer NextJs Cms</h1>
-          <p className={styles.subtitle}>
-            Sign in to access your dashboard
-          </p>
-        </div>
+    <main>
+      <h1>Login</h1>
 
-        <form className={styles.form}>
-          <div className={styles.field}>
-            <label className={styles.label}>Email</label>
-            <input
-              type="email"
-              className={styles.input}
-              placeholder="admin@example.com"
-            />
-          </div>
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-          <div className={styles.field}>
-            <label className={styles.label}>Password</label>
-            <input
-              type="password"
-              className={styles.input}
-              placeholder="••••••••"
-            />
-          </div>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-          <div className={styles.options}>
-            <label className={styles.checkbox}>
-              <input type="checkbox" />
-              Remember me
-            </label>
+        {error && <p>{error}</p>}
 
-            <a href="#" className={styles.link}>
-              Forgot password?
-            </a>
-          </div>
-
-          <button className={styles.button} type="submit">
-            Sign In
-          </button>
-        </form>
-      </div>
+        <button type="submit">
+          Login
+        </button>
+      </form>
     </main>
   );
 }

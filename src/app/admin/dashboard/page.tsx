@@ -1,4 +1,5 @@
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../../components/Sidebar";
+import LogoutButton from "../../../components/LogoutButton";
 
 export default function AdminLayout({
   children,
@@ -11,7 +12,11 @@ export default function AdminLayout({
 
       <div className="dashboard-content">
         <header className="dashboard-header">
-          <h1>Admin Panel</h1>
+          <div>
+            <h1>Admin Panel</h1>
+          </div>
+
+          <LogoutButton />
         </header>
 
         <main>{children}</main>

@@ -6,6 +6,7 @@
 @import "../styles/cards.css";
 @import "../styles/header.css";
 @import "../styles/theme.css";
+@import "../styles/dashboard.css";
 
 body {
   background: var(--background);

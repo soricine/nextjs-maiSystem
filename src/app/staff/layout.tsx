@@ -1,17 +1,17 @@
- import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/Sidebar";
 
-export default function CustomerLayout({
+export default function StaffLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <div className="dashboard-layout">
-      <Sidebar role="CUSTOMER" />
+      <Sidebar role="STAFF" />
 
       <div className="dashboard-content">
         <header className="dashboard-header">
-          <h1>Customer Area</h1>
+          <h1>Staff Panel</h1>
         </header>
 
         <main>{children}</main>

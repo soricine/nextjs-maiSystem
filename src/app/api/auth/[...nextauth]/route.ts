@@ -1,11 +1,9 @@
-import { PrismaClient, Role } from "@prisma/client";
-import bcrypt from "bcrypt";
-import { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
+import { prisma } from "../../../../lib/prisma";
 
-const prisma = new PrismaClient();
-
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -36,12 +34,12 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const validPassword = await bcrypt.compare(
+        const passwordValid = await bcrypt.compare(
           credentials.password,
           user.password
         );
 
-        if (!validPassword) {
+        if (!passwordValid) {
           return null;
         }
 
@@ -62,7 +60,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
         token.role = user.role;
       }
 
@@ -71,8 +68,8 @@ export const authOptions: NextAuthOptions = {
 
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as Role;
+        session.user.id = token.sub!;
+        session.user.role = token.role;
       }
 
       return session;
@@ -84,4 +81,6 @@ export const authOptions: NextAuthOptions = {
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-};
+});
+
+export { handler as GET, handler as POST };

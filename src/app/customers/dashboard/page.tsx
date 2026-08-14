@@ -1,4 +1,5 @@
- import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../../components/Sidebar";
+import LogoutButton from "../../../components/LogoutButton";
 
 export default function CustomerLayout({
   children,
@@ -11,7 +12,11 @@ export default function CustomerLayout({
 
       <div className="dashboard-content">
         <header className="dashboard-header">
-          <h1>Customer Area</h1>
+          <div>
+            <h1>Customer Area</h1>
+          </div>
+
+          <LogoutButton />
         </header>
 
         <main>{children}</main>

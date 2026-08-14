@@ -6,8 +6,8 @@ services:
 
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: newcms
+      POSTGRES_PASSWORD: nextcms123
+      POSTGRES_DB: nextcms
 
     ports:
       - "5432:5432"
