@@ -32,6 +32,9 @@ export default function Home() {
               <a href="/login" className="btn">
                 Login
               </a>
+              <a href="/signin" className="btn">
+                Sign in
+              </a>
 
             </div>
 

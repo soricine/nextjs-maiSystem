@@ -1,0 +1,268 @@
+.signup-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Header */
+
+.signup-header {
+  width: 100%;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+  background: var(--background);
+}
+
+.signup-header-inner {
+  width: min(1200px, 92%);
+  min-height: 72px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.signup-logo {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.signup-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.signup-nav a {
+  padding: 9px 16px;
+  border-radius: 8px;
+
+  color: var(--foreground);
+  text-decoration: none;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.signup-nav a:hover {
+  background: rgba(128, 128, 128, 0.1);
+}
+
+/* Main */
+
+.signup-main {
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 60px 20px;
+}
+
+/* Card */
+
+.signup-card {
+  width: 100%;
+  max-width: 460px;
+
+  padding: 40px;
+
+  border: 1px solid rgba(128, 128, 128, 0.16);
+  border-radius: 18px;
+
+  background: var(--background);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.signup-card-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.signup-card-header h1 {
+  margin: 0 0 10px;
+
+  font-size: 2rem;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.signup-card-header p {
+  margin: 0;
+
+  color: var(--muted-foreground);
+
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Form */
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.signup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.signup-field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.signup-field input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: 9px;
+
+  background: transparent;
+  color: var(--foreground);
+
+  font-size: 0.95rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.signup-field input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.signup-field input:hover {
+  border-color: rgba(128, 128, 128, 0.45);
+}
+
+.signup-field input:focus {
+  border-color: var(--primary);
+
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+/* Submit */
+
+.signup-submit {
+  width: 100%;
+
+  margin-top: 5px;
+  padding: 13px 18px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: var(--primary);
+  color: var(--primary-foreground);
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.signup-submit:hover {
+  opacity: 0.92;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.signup-submit:active {
+  transform: translateY(0);
+}
+
+.signup-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Error */
+
+.signup-error {
+  margin: 0;
+
+  padding: 11px 13px;
+
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  border-radius: 8px;
+
+  background: rgba(220, 38, 38, 0.06);
+  color: #dc2626;
+
+  font-size: 0.88rem;
+}
+
+/* Footer */
+
+.signup-footer {
+  margin-top: 25px;
+
+  text-align: center;
+
+  color: var(--muted-foreground);
+
+  font-size: 0.9rem;
+}
+
+.signup-footer a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signup-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .signup-header-inner {
+    min-height: 64px;
+  }
+
+  .signup-main {
+    padding: 35px 16px;
+    align-items: flex-start;
+  }
+
+  .signup-card {
+    padding: 28px 22px;
+    border-radius: 14px;
+  }
+
+  .signup-card-header h1 {
+    font-size: 1.7rem;
+  }
+}

@@ -5,7 +5,7 @@ export default function Header() {
     <header className="header">
       <nav className="navbar">
         <Link href="/" className="logo">
-          New<span>Site</span>
+          Need<span>Name</span>
         </Link>
 
         {/* <div className="navLinks">
