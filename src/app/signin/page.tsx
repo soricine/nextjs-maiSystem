@@ -1,10 +1,59 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
 
-export default function SignupPage() {
+export default function SignInPage() {
+  const router = useRouter();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Unable to create account.");
+        return;
+      }
+
+      router.push("/login");
+    } catch {
+      setError("Unable to connect to the server.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="signup-page">
@@ -21,7 +70,6 @@ export default function SignupPage() {
               Home
             </Link>
 
-            
           </nav>
 
         </div>
@@ -35,11 +83,14 @@ export default function SignupPage() {
             <h1>Create Account</h1>
 
             <p>
-              Create your  account to get started.
+              Create your customer account.
             </p>
           </div>
 
-          <form className="signup-form">
+          <form
+            className="signup-form"
+            onSubmit={handleSubmit}
+          >
 
             <div className="signup-field">
               <label htmlFor="name">
@@ -48,9 +99,13 @@ export default function SignupPage() {
 
               <input
                 id="name"
-                name="name"
                 type="text"
                 placeholder="Your name"
+                value={name}
+                onChange={(event) =>
+                  setName(event.target.value)
+                }
+                required
               />
             </div>
 
@@ -61,9 +116,13 @@ export default function SignupPage() {
 
               <input
                 id="email"
-                name="email"
                 type="email"
                 placeholder="you@example.com"
+                value={email}
+                onChange={(event) =>
+                  setEmail(event.target.value)
+                }
+                required
               />
             </div>
 
@@ -74,9 +133,14 @@ export default function SignupPage() {
 
               <input
                 id="password"
-                name="password"
                 type="password"
                 placeholder="Create a password"
+                value={password}
+                onChange={(event) =>
+                  setPassword(event.target.value)
+                }
+                required
+                minLength={8}
               />
             </div>
 
@@ -87,9 +151,13 @@ export default function SignupPage() {
 
               <input
                 id="confirmPassword"
-                name="confirmPassword"
                 type="password"
                 placeholder="Repeat your password"
+                value={confirmPassword}
+                onChange={(event) =>
+                  setConfirmPassword(event.target.value)
+                }
+                required
               />
             </div>
 
@@ -102,8 +170,11 @@ export default function SignupPage() {
             <button
               type="submit"
               className="signup-submit"
+              disabled={loading}
             >
-              Create Account
+              {loading
+                ? "Creating account..."
+                : "Create Account"}
             </button>
 
           </form>
@@ -111,7 +182,7 @@ export default function SignupPage() {
           <div className="signup-footer">
             Already have an account?{" "}
             <Link href="/login">
-              log in
+              Log in
             </Link>
           </div>
 
