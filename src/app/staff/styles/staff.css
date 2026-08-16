@@ -1,0 +1,90 @@
+.account-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.account-card {
+  width: 100%;
+  max-width: 720px;
+  padding: 42px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--card-background);
+  box-shadow: var(--shadow);
+}
+
+.account-card-header {
+  margin-bottom: 32px;
+}
+
+.account-label {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.account-card h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+
+.account-description {
+  margin: 14px 0 0;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.account-info {
+  display: grid;
+  gap: 14px;
+}
+
+.account-info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: var(--background);
+  border: 1px solid var(--border);
+}
+
+.account-info-item span {
+  opacity: 0.6;
+}
+
+.account-info-item strong {
+  text-align: right;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .account-page {
+    padding: 24px 16px;
+  }
+
+  .account-card {
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+
+  .account-info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .account-info-item strong {
+    text-align: left;
+  }
+}

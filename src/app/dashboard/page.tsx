@@ -18,7 +18,7 @@ export default async function DashboardPage() {
   }
 
   if (session.user.role === "CUSTOMER") {
-    redirect("/customer/dashboard");
+    redirect("/customers/profile");
   }
 
   redirect("/login");

@@ -8,7 +8,8 @@
 @import "../styles/theme.css";
 @import "../styles/dashboard.css";
 @import "signin/styles/signin.css";
-
+@import "customers/styles/customer-profile.css";
+@import "staff/styles/staff.css";
 body {
   background: var(--background);
   color: var(--foreground);
