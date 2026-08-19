@@ -33,19 +33,19 @@ export default async function AdminDashboardPage() {
           </Link>
 
           <Link
-            href="#"
+            href="/admin/dashboard/staff"
             className="wp-menu-item"
           >
             <span>▤</span>
-            Posts
+            New Staff User
           </Link>
 
           <Link
-            href="#"
+            href="/admin/dashboard/members"
             className="wp-menu-item"
           >
             <span>▥</span>
-            Pages
+            All Members
           </Link>
 
           <Link
