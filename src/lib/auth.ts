@@ -1,9 +1,7 @@
-import { PrismaClient, Role } from "@prisma/client";
-import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-const prisma = new PrismaClient();
+import { prisma } from "./prisma";
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -26,9 +24,11 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        const email = credentials.email.trim().toLowerCase();
+
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email,
+            email,
           },
         });
 
@@ -36,17 +36,17 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const validPassword = await bcrypt.compare(
+        const passwordValid = await bcrypt.compare(
           credentials.password,
           user.password
         );
 
-        if (!validPassword) {
+        if (!passwordValid) {
           return null;
         }
 
         return {
-          id: user.id,
+          id: String(user.id),
           name: user.name,
           email: user.email,
           role: user.role,
@@ -59,25 +59,35 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
 
-    callbacks: {
+  callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.name = user.name;
-        token.email = user.email;
+        token.id = String(user.id);
         token.role = user.role;
+        token.name = user.name;
       }
+
+      console.log("JWT:", {
+        id: token.id,
+        role: token.role,
+        name: token.name,
+      });
 
       return token;
     },
 
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.name = token.name;
-        session.user.email = token.email;
-        session.user.role = token.role as Role;
+        session.user.id = String(token.id);
+        session.user.role = token.role;
+        session.user.name = token.name ?? session.user.name;
       }
+
+      console.log("SESSION:", {
+        id: session.user.id,
+        role: session.user.role,
+        name: session.user.name,
+      });
 
       return session;
     },
@@ -85,9 +95,5 @@ export const authOptions: NextAuthOptions = {
 
   pages: {
     signIn: "/login",
-    
   },
-  
-
-  secret: process.env.NEXTAUTH_SECRET,
 };

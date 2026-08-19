@@ -1,44 +1,42 @@
-{"timestamp":"00:00:00.441","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:02.264","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"00:00:15.125","source":"Browser","level":"LOG","message":"LOGIN SESSION: {\"expires\":\"2026-09-15T12:14:43.294Z\",\"user\":{\"email\":\"me@me.com\",\"id\":\"cmsu9xgkl00003ul8j0buq0r8\",\"name\":\"mne\",\"role\":\"CUSTOMER\"}}"}
-{"timestamp":"00:00:15.125","source":"Browser","level":"LOG","message":"LOGIN ROLE: CUSTOMER"}
-{"timestamp":"00:00:27.388","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"00:01:51.976","source":"Server","level":"LOG","message":"✓ Compiled in 9ms"}
-{"timestamp":"00:01:59.726","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"00:02:09.361","source":"Browser","level":"LOG","message":"LOGIN SESSION: {\"expires\":\"2026-09-15T12:16:37.532Z\",\"user\":{\"email\":\"me@me.com\",\"id\":\"cmsu9xgkl00003ul8j0buq0r8\",\"name\":\"mne\",\"role\":\"CUSTOMER\"}}"}
-{"timestamp":"00:02:09.361","source":"Browser","level":"LOG","message":"LOGIN ROLE: CUSTOMER"}
-{"timestamp":"00:02:09.424","source":"Browser","level":"WARN","message":"Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior"}
-{"timestamp":"00:02:09.452","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\\\"smooth\\\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\\u001b[39m\""}
-{"timestamp":"00:02:09.452","source":"Browser","level":"WARN","message":"\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\u001b[39m"}
-{"timestamp":"00:02:53.307","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"00:02:55.332","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"00:03:07.158","source":"Browser","level":"LOG","message":"LOGIN SESSION: {\"expires\":\"2026-09-15T12:17:35.330Z\",\"user\":{\"email\":\"staff@example.com\",\"id\":\"cmstb00ih00013us7ik001kqm\",\"name\":\"Staff User\",\"role\":\"STAFF\"}}"}
-{"timestamp":"00:03:07.158","source":"Browser","level":"LOG","message":"LOGIN ROLE: STAFF"}
-{"timestamp":"00:03:07.408","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\\\"smooth\\\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\\u001b[39m\""}
-{"timestamp":"00:03:07.408","source":"Browser","level":"WARN","message":"\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\u001b[39m"}
-{"timestamp":"00:03:07.408","source":"Browser","level":"WARN","message":"Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior"}
-{"timestamp":"00:03:10.821","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"00:03:30.299","source":"Browser","level":"LOG","message":"LOGIN SESSION: {\"expires\":\"2026-09-15T12:17:58.471Z\",\"user\":{\"email\":\"admin@example.com\",\"id\":\"cmstb00ic00003us7zbykailh\",\"name\":\"Administrator\",\"role\":\"ADMIN\"}}"}
-{"timestamp":"00:03:30.299","source":"Browser","level":"LOG","message":"LOGIN ROLE: ADMIN"}
-{"timestamp":"00:03:30.533","source":"Browser","level":"WARN","message":"Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior"}
-{"timestamp":"00:03:30.533","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\\\"smooth\\\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\\u001b[39m\""}
-{"timestamp":"00:03:30.533","source":"Browser","level":"WARN","message":"\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\u001b[39m"}
-{"timestamp":"00:03:34.078","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"01:40:03.063","source":"Server","level":"LOG","message":"✓ Compiled in 5ms"}
-{"timestamp":"01:41:20.576","source":"Server","level":"LOG","message":"✓ Compiled in 4ms"}
-{"timestamp":"01:41:37.833","source":"Browser","level":"LOG","message":"LOGIN SESSION: {\"expires\":\"2026-09-15T17:33:33.001Z\",\"user\":{\"email\":\"me@me.com\",\"id\":\"cmsu9xgkl00003ul8j0buq0r8\",\"name\":\"mne\",\"role\":\"CUSTOMER\"}}"}
-{"timestamp":"01:41:37.833","source":"Browser","level":"LOG","message":"LOGIN ROLE: CUSTOMER"}
-{"timestamp":"01:41:37.882","source":"Browser","level":"WARN","message":"Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior"}
-{"timestamp":"01:41:37.883","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\\\"smooth\\\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\\u001b[39m\""}
-{"timestamp":"01:41:37.883","source":"Browser","level":"WARN","message":"\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\u001b[39m"}
-{"timestamp":"01:47:57.562","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"01:51:26.656","source":"Server","level":"LOG","message":"✓ Compiled in 129ms"}
-{"timestamp":"01:55:10.244","source":"Server","level":"LOG","message":"✓ Compiled in 70ms"}
-{"timestamp":"01:55:10.381","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"01:55:54.104","source":"Browser","level":"LOG","message":"LOGIN SESSION: {\"expires\":\"2026-09-15T17:47:49.269Z\",\"user\":{\"email\":\"staff@example.com\",\"id\":\"cmstb00ih00013us7ik001kqm\",\"name\":\"Staff User\",\"role\":\"STAFF\"}}"}
-{"timestamp":"01:55:54.104","source":"Browser","level":"LOG","message":"LOGIN ROLE: STAFF"}
-{"timestamp":"01:55:54.225","source":"Browser","level":"WARN","message":"Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior"}
-{"timestamp":"01:55:54.226","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\\\"smooth\\\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\\u001b[39m\""}
-{"timestamp":"01:55:54.226","source":"Browser","level":"WARN","message":"\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\u001b[39m"}
-{"timestamp":"01:57:36.140","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"01:57:57.368","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
+{"timestamp":"00:00:00.457","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:02.685","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:59.768","source":"Server","level":"LOG","message":"POST /api/customers/settings"}
+{"timestamp":"00:00:59.779","source":"Server","level":"LOG","message":"JWT: {}"}
+{"timestamp":"00:00:59.779","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:00:59.782","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:00:59.977","source":"Server","level":"ERROR","message":"CUSTOMER SETTINGS API ERROR: PrismaClientKnownRequestError: \nInvalid `prisma.user.update()` invocation in\n/home/soricine/Documents/nextjsCms/.next/dev/server/chunks/[root-of-the-server]__16m23uj._.js:181:47\n\n  178         status: 400\n  179     });\n  180 }\n→ 181 const updatedUser = await prisma.user.update(\nAn operation failed because it depends on one or more records that were required but not found. No record was found for an update."}
+{"timestamp":"00:01:41.116","source":"Server","level":"LOG","message":"POST /api/customers/settings"}
+{"timestamp":"00:01:41.120","source":"Server","level":"LOG","message":"JWT: {}"}
+{"timestamp":"00:01:41.121","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:01:41.121","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:01:41.128","source":"Server","level":"ERROR","message":"CUSTOMER SETTINGS API ERROR: PrismaClientKnownRequestError: \nInvalid `prisma.user.update()` invocation in\n/home/soricine/Documents/nextjsCms/.next/dev/server/chunks/[root-of-the-server]__16m23uj._.js:181:47\n\n  178         status: 400\n  179     });\n  180 }\n→ 181 const updatedUser = await prisma.user.update(\nAn operation failed because it depends on one or more records that were required but not found. No record was found for an update."}
+{"timestamp":"00:01:43.956","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:01:47.315","source":"Server","level":"LOG","message":"POST /api/customers/settings"}
+{"timestamp":"00:01:47.320","source":"Server","level":"LOG","message":"JWT: {}"}
+{"timestamp":"00:01:47.320","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:01:47.322","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:01:47.325","source":"Server","level":"ERROR","message":"CUSTOMER SETTINGS API ERROR: PrismaClientKnownRequestError: \nInvalid `prisma.user.update()` invocation in\n/home/soricine/Documents/nextjsCms/.next/dev/server/chunks/[root-of-the-server]__16m23uj._.js:181:47\n\n  178         status: 400\n  179     });\n  180 }\n→ 181 const updatedUser = await prisma.user.update(\nAn operation failed because it depends on one or more records that were required but not found. No record was found for an update."}
+{"timestamp":"00:03:27.145","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:03:31.873","source":"Server","level":"LOG","message":"POST /api/customers/settings"}
+{"timestamp":"00:03:31.876","source":"Server","level":"LOG","message":"JWT: {}"}
+{"timestamp":"00:03:31.876","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:03:31.877","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:03:31.916","source":"Server","level":"ERROR","message":"CUSTOMER SETTINGS API ERROR: PrismaClientKnownRequestError: \nInvalid `prisma.user.update()` invocation:\n\n\nAn operation failed because it depends on one or more records that were required but not found. No record was found for an update."}
+{"timestamp":"00:05:33.530","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:05:40.194","source":"Server","level":"LOG","message":"POST /api/customers/settings"}
+{"timestamp":"00:05:40.198","source":"Server","level":"LOG","message":"JWT: {}"}
+{"timestamp":"00:05:40.198","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:05:40.199","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:05:40.216","source":"Server","level":"LOG","message":"USER NAME UPDATED: \"me@me.com\" \"new\""}
+{"timestamp":"00:05:41.149","source":"Browser","level":"WARN","message":"Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior"}
+{"timestamp":"00:05:41.154","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\\\"smooth\\\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\\u001b[39m\""}
+{"timestamp":"00:05:51.443","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:05:53.583","source":"Browser","level":"WARN","message":"Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior"}
+{"timestamp":"00:05:53.584","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\\\"smooth\\\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\\u001b[39m\""}
+{"timestamp":"00:05:57.884","source":"Server","level":"LOG","message":"POST /api/customers/settings"}
+{"timestamp":"00:05:57.888","source":"Server","level":"LOG","message":"JWT: {}"}
+{"timestamp":"00:05:57.888","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:05:57.889","source":"Server","level":"LOG","message":"SESSION: {}"}
+{"timestamp":"00:05:57.926","source":"Server","level":"LOG","message":"USER NAME UPDATED: \"me@me.com\" \"brbnrt\""}
+{"timestamp":"00:06:18.682","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:06:24.254","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}

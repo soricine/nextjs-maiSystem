@@ -3,9 +3,13 @@
     "@hookform/resolvers": "^5.5.7",
     "@prisma/client": "^6.19.3",
     "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
+    "next": "^16.3.1",
     "next-auth": "^4.24.15",
     "prisma": "^6.19.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-hook-form": "^7.83.0",
     "zod": "^4.4.3"
   },

@@ -1,5 +1,6 @@
 import Sidebar from "../../../components/Sidebar";
 import LogoutButton from "../../../components/LogoutButton";
+import Link from "next/link";
 
 export default function CustomerLayout({
   children,
@@ -15,10 +16,15 @@ export default function CustomerLayout({
           <div>
             <h1>Customer Area</h1>
           </div>
-
-          <LogoutButton />
+  <Link
+            href="/customers/settings"
+            className="account-button"
+          >
+            Change Name
+          </Link>
+          
         </header>
-
+        <LogoutButton />
         <main>{children}</main>
       </div>
     </div>

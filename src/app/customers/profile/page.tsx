@@ -107,7 +107,7 @@ export default async function CustomerProfilePage() {
 
             <div className="profile-card-actions">
               <Link
-                href="/customer/settings"
+                href="/customers/settings"
                 className="profile-button"
               >
                 Edit Profile
@@ -143,7 +143,7 @@ export default async function CustomerProfilePage() {
                 </span>
               </Link>
 
-              <Link href="/customer/settings">
+              <Link href="/customers/settings">
                 <span>
                   Account Settings
                 </span>
