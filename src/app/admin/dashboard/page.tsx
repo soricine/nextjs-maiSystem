@@ -7,13 +7,13 @@ import LogoutButton from "../../../components/LogoutButton";
 export default async function AdminDashboardPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session?.user) {
-    redirect("/login");
-  }
+  // if (!session?.user) {
+  //   redirect("/login");
+  // }
 
-  if (session.user.role !== "ADMIN") {
-    redirect("/login");
-  }
+  // if (session.user.role !== "ADMIN") {
+  //   redirect("/login");
+  // }
 
   return (
     <div className="wp-dashboard">

@@ -1,14 +1,6 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/dashboard/members/page": "app/admin/dashboard/members/page.js",
   "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/admin/dashboard/staff/page": "app/admin/dashboard/staff/page.js",
-  "/api/admin/staff/route": "app/api/admin/staff/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/customers/settings/route": "app/api/customers/settings/route.js",
-  "/customers/profile/page": "app/customers/profile/page.js",
-  "/customers/settings/page": "app/customers/settings/page.js",
   "/login/page": "app/login/page.js",
-  "/page": "app/page.js",
-  "/staff/dashboard/page": "app/staff/dashboard/page.js"
+  "/page": "app/page.js"
 }

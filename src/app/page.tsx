@@ -1,225 +1,323 @@
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "../lib/auth";
-import LogoutButton from "../components/LogoutButton";
 
-export default async function StaffDashboardPage() {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    redirect("/login");
-  }
-
-  if (session.user.role !== "STAFF") {
-    redirect("/login");
-  }
-
+export default function HomePage() {
   return (
-    <div className="wp-dashboard">
-      <aside className="wp-sidebar">
-        <div className="wp-logo">
-          <span>CMS</span>
-          <small>Staff Panel</small>
+    <main className="home-page">
+
+      
+      <header className="home-header">
+        <div className="home-header-inner">
+
+          <Link href="/" className="home-logo">
+            Need Name
+          </Link>
+
+          <nav className="home-nav">
+            <Link href="#features">
+              Features
+            </Link>
+
+            <Link href="#about">
+              About
+            </Link>
+
+            <Link href="/login">
+              Sign In
+            </Link>
+
+            {/* <Link
+              href="/signin"
+              className="home-nav-button"
+            >
+              Get Started
+            </Link> */}
+          </nav>
+
+        </div>
+      </header>
+
+
+      
+      <section className="home-hero">
+
+        <div className="home-hero-grid" />
+        <div className="home-hero-glow" />
+
+        <div className="home-hero-content">
+
+          <div className="home-badge">
+            <span />
+            Simple. Secure. Powerful.
+          </div>
+
+          <h1>
+            New Site
+            <br />
+            <span>New.</span>
+          </h1>
+
+
+          <div className="home-hero-actions">
+
+            <Link
+              href="/signin"
+              className="home-primary-button"
+            >
+              Create Account
+              <span>→</span>
+            </Link>
+
+            <Link
+              href="/login"
+              className="home-secondary-button"
+            >
+              Sign In
+            </Link>
+
+          </div>
+
+          <div className="home-hero-note">
+            <span>✓</span>
+          Check
+
+           
+          </div>
+
         </div>
 
-        <nav className="wp-menu">
-          <Link
-            href="/staff/dashboard"
-            className="wp-menu-item active"
-          >
-            <span>▣</span>
-            Dashboard
-          </Link>
+      </section>
 
-          <Link
-            href="#"
-            className="wp-menu-item"
-          >
-            <span>▤</span>
-            Posts
-          </Link>
 
-          <Link
-            href="#"
-            className="wp-menu-item"
-          >
-            <span>▥</span>
-            Pages
-          </Link>
+      
+      <section
+        id="features"
+        className="home-features"
+      >
 
-          <Link
-            href="#"
-            className="wp-menu-item"
-          >
-            <span>▧</span>
-            Media
-          </Link>
+        <div className="home-container">
 
-          <Link
-            href="#"
-            className="wp-menu-item"
-          >
-            <span>◉</span>
-            Profile
-          </Link>
-        </nav>
-      </aside>
+          <div className="home-section-header">
 
-      <div className="wp-main">
-        <header className="wp-topbar">
-          <span className="wp-breadcrumb">
-            Dashboard
-          </span>
+            <p className="home-eyebrow">
+              FEATURES
+            </p>
 
-          <div className="wp-user">
-            <span>
-              {session.user.name || "Staff Member"}
-            </span>
+            <h2>
+              New Site
+              <br />
+              <span>New</span>
+            </h2>
 
-            <LogoutButton />
+            <p>
+              123e132fd312fg
+            </p>
+
           </div>
-        </header>
 
-        <main className="wp-content">
-          <div className="wp-page-header">
-            <div>
-              <h1>Dashboard</h1>
+
+          <div className="home-cards">
+
+            <article className="home-card">
+
+              <div className="home-card-top">
+                <span>01</span>
+
+                <div className="home-card-icon">
+                  👤
+                </div>
+              </div>
+
+              <h3>
+                Customer
+              </h3>
 
               <p>
-                Welcome back,{" "}
-                <strong>
-                  {session.user.name || "Staff Member"}
-                </strong>
-                .
+                fcrewg4r3
+               vwervwrev
               </p>
-            </div>
 
-            <button className="wp-primary-button">
-              Create Post
-            </button>
+              <Link href="/signin">
+                Create account <span>→</span>
+              </Link>
+
+            </article>
+
+
+            <article className="home-card">
+
+              <div className="home-card-top">
+                <span>02</span>
+
+                <div className="home-card-icon">
+                  ◇
+                </div>
+              </div>
+
+              <h3>
+                Staff
+              </h3>
+
+              <p>
+              ewrvwrev
+              </p>
+
+              <div className="home-card-label">
+                Staff access
+              </div>
+
+            </article>
+
+
+            <article className="home-card">
+
+              <div className="home-card-top">
+                <span>03</span>
+
+                <div className="home-card-icon">
+                  ⚙
+                </div>
+              </div>
+
+              <h3>
+                Administration
+              </h3>
+
+              <p>
+      wrevwrvbwrbvrwevb
+              </p>
+
+              <div className="home-card-label">
+                Admin access
+              </div>
+
+            </article>
+
           </div>
 
-          <section className="wp-stats">
-            <div className="wp-stat-card">
-              <span className="wp-stat-label">
-                My Posts
-              </span>
-              <strong>18</strong>
-              <small>Posts created by you</small>
+        </div>
+
+      </section>
+
+
+      
+      <section
+        id="about"
+        className="home-about"
+      >
+
+        <div className="home-container">
+
+          <div className="home-about-grid">
+
+            <div>
+
+              <p className="home-eyebrow">
+                New
+              </p>
+
+              <h2>
+                Site
+                <br />
+                <span>New</span>
+              </h2>
+
             </div>
 
-            <div className="wp-stat-card">
-              <span className="wp-stat-label">
-                Drafts
-              </span>
-              <strong>5</strong>
-              <small>Posts waiting for review</small>
+            <div className="home-about-text">
+
+              <p>
+            rvwervwrevbwre
+              </p>
+
+              
+
             </div>
 
-            <div className="wp-stat-card">
-              <span className="wp-stat-label">
-                Published
-              </span>
-              <strong>13</strong>
-              <small>Published posts</small>
-            </div>
+          </div>
 
-            <div className="wp-stat-card">
-              <span className="wp-stat-label">
-                Comments
-              </span>
-              <strong>9</strong>
-              <small>Recent comments</small>
-            </div>
-          </section>
+        </div>
 
-          <section className="wp-grid">
-            <div className="wp-card">
-              <div className="wp-card-header">
-                <h2>My Recent Posts</h2>
+      </section>
 
-                <Link href="#">
-                  View All
-                </Link>
-              </div>
 
-              <div className="wp-table-wrapper">
-                <table className="wp-table">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Status</th>
-                      <th>Modified</th>
-                    </tr>
-                  </thead>
+      
+      <section className="home-cta">
 
-                  <tbody>
-                    <tr>
-                      <td>Company News</td>
-                      <td>
-                        <span className="wp-status draft">
-                          Draft
-                        </span>
-                      </td>
-                      <td>Today</td>
-                    </tr>
+        <div className="home-cta-inner">
 
-                    <tr>
-                      <td>New Product</td>
-                      <td>
-                        <span className="wp-status published">
-                          Published
-                        </span>
-                      </td>
-                      <td>Yesterday</td>
-                    </tr>
+          <div>
 
-                    <tr>
-                      <td>Our Services</td>
-                      <td>
-                        <span className="wp-status published">
-                          Published
-                        </span>
-                      </td>
-                      <td>3 days ago</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            {/* <p className="home-eyebrow">
+              GET STARTED
+            </p> */}
 
-            <div className="wp-card">
-              <div className="wp-card-header">
-                <h2>Quick Actions</h2>
-              </div>
+            <h2>
+fewfew            </h2>
 
-              <div className="wp-quick-actions">
-                <Link
-                  href="#"
-                  className="wp-action-button"
-                >
-                  Create Post
-                </Link>
+            <p>
+              Create your account
+            </p>
 
-                <Link
-                  href="#"
-                  className="wp-action-button"
-                >
-                  Manage Media
-                </Link>
+          </div>
 
-                <Link
-                  href="#"
-                  className="wp-action-button"
-                >
-                  Edit Profile
-                </Link>
-              </div>
-            </div>
-          </section>
-        </main>
-      </div>
-    </div>
+          <div className="home-cta-actions">
+
+            <Link
+              href="/signin"
+              className="home-primary-button"
+            >
+              Create Account
+              <span>→</span>
+            </Link>
+
+            <Link
+              href="/login"
+              className="home-cta-login"
+            >
+              Already have an account?
+              <span>Sign In</span>
+            </Link>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      
+      <footer className="home-footer">
+
+        <div className="home-footer-inner">
+
+          {/* <Link
+            href="/"
+            className="home-logo"
+          >
+            
+          </Link> */}
+
+          <p>
+            © {new Date().getFullYear()} Need Name.
+            All rights reserved.
+          </p>
+
+          <div className="home-footer-links">
+
+            <Link href="/login">
+              Sign In
+            </Link>
+
+            <Link href="/signin">
+              Create Account
+            </Link>
+
+          </div>
+
+        </div>
+
+      </footer>
+
+    </main>
   );
 }

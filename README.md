@@ -8,8 +8,11 @@ npm install next-auth
 npm install react-hook-form
 npm install @hookform/resolvers
 
-- run:
+## run:
   name: Install dependencies
   command: |
     npm install -g pnpm
     pnpm install
+
+## run:
+pnpm create-admin to create new admin

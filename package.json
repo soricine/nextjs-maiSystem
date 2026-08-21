@@ -21,14 +21,17 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "remove-admin": "tsx scripts/remove-admin.ts",
+    "create-admin": "tsx scripts/create-admin.ts"
+
   },
   "devDependencies": {
     "@types/node": "26.1.2",
     "@types/react": "19.2.18",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.0",
-    "tsx": "^4.23.1",
+    "tsx": "^4.23.12",
     "typescript": "6.0.3"
   },
   "allowScripts": {
