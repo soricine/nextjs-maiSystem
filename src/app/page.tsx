@@ -60,7 +60,7 @@ export default function HomePage() {
           <div className="home-hero-actions">
 
             <Link
-              href="/signin"
+              href="/signup"
               className="home-primary-button"
             >
               Create Account
@@ -136,7 +136,7 @@ export default function HomePage() {
                vwervwrev
               </p>
 
-              <Link href="/signin">
+              <Link href="/signup">
                 Create account <span>→</span>
               </Link>
 
@@ -263,7 +263,7 @@ fewfew            </h2>
           <div className="home-cta-actions">
 
             <Link
-              href="/signin"
+              href="/signup"
               className="home-primary-button"
             >
               Create Account
