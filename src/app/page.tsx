@@ -308,7 +308,7 @@ fewfew            </h2>
               Sign In
             </Link>
 
-            <Link href="/signin">
+            <Link href="/signup">
               Create Account
             </Link>
 
