@@ -1,8 +1,10 @@
 node_modules
 
 .env
+*.sqlite3
 
 generated/prisma
 .next/
 .next/dev/cache
 *.log
+.gstack/

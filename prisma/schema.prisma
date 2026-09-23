@@ -2,15 +2,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// Local development uses SQLite; production uses PostgreSQL.
+// Switch `provider` to "postgresql" when deploying (see docs/architecture.md).
+// NOTE: SQLite does not support Prisma enums, so `User.role` is a String
+// holding one of: "ADMIN" | "STAFF" | "CUSTOMER" (see src/lib/validation/auth.ts).
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
-}
-
-enum Role {
-  ADMIN
-  STAFF
-  CUSTOMER
 }
 
 model User {
@@ -18,8 +16,40 @@ model User {
   name      String
   email     String   @unique
   password  String
-  role      Role     @default(CUSTOMER)
+  role      String   @default("CUSTOMER")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  refreshTokens  RefreshToken[]
+  passwordResets PasswordReset[]
+}
+
+// Long-lived refresh tokens, stored hashed so a DB leak cannot be replayed.
+// A token is valid only while `revokedAt` is null and `expiresAt` is in the future.
+model RefreshToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+// One-time codes for the password-reset flow, stored hashed.
+// `attempts` guards against brute-forcing the 6-digit code.
+model PasswordReset {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  otpHash    String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  attempts   Int       @default(0)
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
 }
