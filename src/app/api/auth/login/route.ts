@@ -11,14 +11,23 @@ export async function POST(request: Request) {
 
     // Same error for unknown email and wrong password so the endpoint
     // can't be used to probe which emails are registered.
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
     const passwordValid =
       user !== null && (await bcrypt.compare(password, user.password));
+
     if (!user || !passwordValid) {
       throw new ApiRouteError(401, "Incorrect email or password");
     }
 
-    return NextResponse.json(await issueSession(user));
+    const session = await issueSession(user);
+
+    return NextResponse.json({
+      ...session,
+      role: user.role,
+    });
   } catch (error) {
     return handleApiError(error);
   }

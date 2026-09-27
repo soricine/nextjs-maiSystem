@@ -22,10 +22,21 @@ export default function LoginPage() {
     mode: "onChange",
     defaultValues: { email: "", password: "" },
   });
-
-  const onSubmit = handleSubmit((values) =>
-    login.mutate(values, { onSuccess: () => router.push("/dashboard") }),
-  );
+const onSubmit = handleSubmit((values) =>
+  login.mutate(values, {
+    onSuccess: (data) => {
+      // AuthSession may not have a top-level `role`. Try common locations safely.
+      const role = (data as any)?.role ?? (data as any)?.user?.role;
+      if (role === "ADMIN") {
+        router.push("/admin/dashboard");
+      } else if (role === "STAFF") {
+        router.push("/staff/dashboard");
+      } else {
+        router.push("/user/dashboard");
+      }
+    },
+  }),
+);
 
   return (
     <Card className="w-full">
