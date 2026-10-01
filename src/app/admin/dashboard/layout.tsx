@@ -16,11 +16,7 @@ import {
 import { useLogout, useMe } from "@/lib/api/auth";
 import { clearSession, hasSession } from "@/lib/api/client";
 
-// Dashboard layout: client-side auth guard + top navigation. The front-end
-// is a static client (docs/architecture.md), so the guard runs in the
-// browser: no tokens -> /login; a session that fails /api/auth/me even
-// after a refresh attempt is treated as expired.
-export default function DashboardLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -28,6 +24,7 @@ export default function DashboardLayout({
   const router = useRouter();
   const me = useMe();
   const logout = useLogout();
+
   const [checkedSession, setCheckedSession] = useState(false);
 
   useEffect(() => {
@@ -48,47 +45,60 @@ export default function DashboardLayout({
   if (!checkedSession || !me.data) {
     return (
       <Row className="min-h-dvh justify-center">
-        <Spinner size="lg" aria-label="Loading your mailbox" />
+        <Spinner size="lg" aria-label="Loading admin dashboard" />
       </Row>
     );
   }
 
   const signOut = () =>
-    logout.mutate(undefined, { onSettled: () => router.push("/login") });
+    logout.mutate(undefined, {
+      onSettled: () => router.push("/login"),
+    });
 
   return (
-    <Stack className="min-h-dvh">
-      <Header className="border-b border-border bg-background/80 backdrop-blur">
-        <Container className="flex h-16 items-center justify-between">
-          <Row className="gap-4">
+    <Stack className="min-h-dvh bg-background">
+      {/* Top admin bar */}
+      <Header className="border-b border-border bg-background">
+        <Container className="flex h-14 items-center justify-between">
+          <Row className="gap-6">
             <ButtonLink
-              href="/dashboard"
+              href="/admin/dashboard"
               variant="ghost"
               className="-ml-3 font-semibold"
             >
-              Virtual Mailbox
+              My CMS
             </ButtonLink>
-            <Nav className="flex items-center gap-1">
-              <ButtonLink href="/dashboard" variant="ghost" size="sm">
-                Inbox
-              </ButtonLink>
-              <ButtonLink href="/dashboard/account" variant="ghost" size="sm">
-                Account
-              </ButtonLink>
-            </Nav>
+
+            <span className="text-sm text-muted-foreground">
+              Admin Panel
+            </span>
           </Row>
+
           <Dropdown>
-            <Button variant="ghost">{me.data.name}</Button>
+            <Button variant="ghost">
+              {me.data.name}
+            </Button>
+
             <Dropdown.Popover placement="bottom end">
               <Dropdown.Menu
                 onAction={(key) => {
-                  if (key === "signout") signOut();
+                  if (key === "profile") {
+                    router.push("/admin/profile");
+                  }
+
+                  if (key === "signout") {
+                    signOut();
+                  }
                 }}
               >
-                <Dropdown.Item id="account" href="/dashboard/account">
-                  Account settings
+                <Dropdown.Item id="profile">
+                  Profile
                 </Dropdown.Item>
-                <Dropdown.Item id="signout" variant="danger">
+
+                <Dropdown.Item
+                  id="signout"
+                  variant="danger"
+                >
                   Sign out
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -96,9 +106,81 @@ export default function DashboardLayout({
           </Dropdown>
         </Container>
       </Header>
-      <Main className="flex-1">
-        <Container className="py-10">{children}</Container>
-      </Main>
+
+      {/* Admin body */}
+      <Stack className="flex-1 md:flex-row">
+        {/* Sidebar */}
+        <aside className="w-full border-b border-border bg-muted/30 md:w-64 md:border-b-0 md:border-r">
+          <Container className="py-6 md:px-4">
+            <Stack className="gap-1">
+              <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Administration
+              </p>
+
+              <ButtonLink
+                href="/admin/dashboard"
+                variant="ghost"
+                className="justify-start"
+              >
+                Dashboard
+              </ButtonLink>
+
+              <ButtonLink
+                href="/admin/users"
+                variant="ghost"
+                className="justify-start"
+              >
+                Users
+              </ButtonLink>
+
+              <ButtonLink
+                href="/admin/staff"
+                variant="ghost"
+                className="justify-start"
+              >
+                Staff
+              </ButtonLink>
+
+              <ButtonLink
+                href="/admin/posts"
+                variant="ghost"
+                className="justify-start"
+              >
+                Posts
+              </ButtonLink>
+
+              <ButtonLink
+                href="/admin/media"
+                variant="ghost"
+                className="justify-start"
+              >
+                Media
+              </ButtonLink>
+
+              <div className="my-4 border-t border-border" />
+
+              <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Account
+              </p>
+
+              <ButtonLink
+                href="/admin/profile"
+                variant="ghost"
+                className="justify-start"
+              >
+                Profile
+              </ButtonLink>
+            </Stack>
+          </Container>
+        </aside>
+
+        {/* Main content */}
+        <Main className="min-w-0 flex-1">
+          <Container className="py-8">
+            {children}
+          </Container>
+        </Main>
+      </Stack>
     </Stack>
   );
 }
