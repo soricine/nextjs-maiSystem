@@ -4,21 +4,30 @@ import { Card, Spinner } from "@heroui/react";
 
 import { Stack } from "@/components/ui/layout";
 import { BodyText, PageTitle } from "@/components/ui/typography";
-import { useMe } from "@/lib/api/auth";
 import { useStaffUsers } from "@/lib/api/staff";
 
-export default function StaffProfilePage() {
-  const me = useMe();
+export default function StaffUsersPage() {
   const users = useStaffUsers();
 
   if (users.isLoading) {
     return (
       <Stack className="gap-8">
-        <PageTitle className="text-3xl">Profile</PageTitle>
+        <Stack className="gap-2">
+          <PageTitle className="text-3xl">
+            Users
+          </PageTitle>
+
+          <BodyText color="muted">
+            View registered users.
+          </BodyText>
+        </Stack>
 
         <Card>
-          <Card.Content className="flex justify-center py-10">
-            <Spinner size="lg" aria-label="Loading users" />
+          <Card.Content className="flex justify-center py-12">
+            <Spinner
+              size="lg"
+              aria-label="Loading users"
+            />
           </Card.Content>
         </Card>
       </Stack>
@@ -28,13 +37,24 @@ export default function StaffProfilePage() {
   if (users.isError) {
     return (
       <Stack className="gap-8">
-        <PageTitle className="text-3xl">Profile</PageTitle>
+        <Stack className="gap-2">
+          <PageTitle className="text-3xl">
+            Users
+          </PageTitle>
+
+          <BodyText color="muted">
+            View registered users.
+          </BodyText>
+        </Stack>
 
         <Card>
           <Card.Header>
-            <Card.Title>Users</Card.Title>
+            <Card.Title>
+              Unable to load users
+            </Card.Title>
+
             <Card.Description>
-              Unable to load users.
+              Something went wrong while loading the users.
             </Card.Description>
           </Card.Header>
         </Card>
@@ -42,56 +62,41 @@ export default function StaffProfilePage() {
     );
   }
 
+  const customerUsers = users.data?.users ?? [];
+
   return (
     <Stack className="gap-8">
-      {/* Staff profile */}
+      {/* Page header */}
       <Stack className="gap-2">
         <PageTitle className="text-3xl">
-          Profile
+          Users
         </PageTitle>
 
         <BodyText color="muted">
-          Manage your staff profile.
+          View registered customers.
         </BodyText>
       </Stack>
 
+      {/* Users panel */}
       <Card>
         <Card.Header>
-          <Card.Title>Account information</Card.Title>
-        </Card.Header>
-
-        <Card.Content>
-          <Stack className="gap-2">
-            <p>
-              <strong>Name:</strong> {me.data?.name}
-            </p>
-
-            <p>
-              <strong>Email:</strong> {me.data?.email}
-            </p>
-
-            <p>
-              <strong>Role:</strong> {me.data?.role}
-            </p>
-          </Stack>
-        </Card.Content>
-      </Card>
-
-      {/* Users */}
-      <Card>
-        <Card.Header>
-          <Card.Title>Users</Card.Title>
+          <Card.Title>
+            Registered Users
+          </Card.Title>
 
           <Card.Description>
-            Users registered in the CMS.
+            {customerUsers.length}{" "}
+            {customerUsers.length === 1 ? "user" : "users"} registered.
           </Card.Description>
         </Card.Header>
 
         <Card.Content>
-          {users.data?.users.length === 0 ? (
-            <BodyText color="muted">
-              No users found.
-            </BodyText>
+          {customerUsers.length === 0 ? (
+            <div className="py-8 text-center">
+              <BodyText color="muted">
+                No registered users found.
+              </BodyText>
+            </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -106,22 +111,18 @@ export default function StaffProfilePage() {
                     </th>
 
                     <th className="px-4 py-3 font-medium">
-                      Role
-                    </th>
-
-                    <th className="px-4 py-3 font-medium">
-                      Created
+                      Registered
                     </th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {users.data?.users.map((user) => (
+                  {customerUsers.map((user) => (
                     <tr
                       key={user.id}
                       className="border-b border-border last:border-0"
                     >
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 font-medium">
                         {user.name}
                       </td>
 
@@ -129,11 +130,7 @@ export default function StaffProfilePage() {
                         {user.email}
                       </td>
 
-                      <td className="px-4 py-3">
-                        {user.role}
-                      </td>
-
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 text-muted-foreground">
                         {new Date(
                           user.createdAt,
                         ).toLocaleDateString()}
