@@ -1,15 +1,29 @@
 "use client";
 
-import { Card, Spinner } from "@heroui/react";
+import { Button, Card, Spinner } from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 import { Stack } from "@/components/ui/layout";
 import { BodyText, PageTitle } from "@/components/ui/typography";
-import { useMe } from "@/lib/api/auth";
+import { useMe, useLogout } from "@/lib/api/auth";
 import { useStaffUsers } from "@/lib/api/staff";
+import { clearSession } from "@/lib/api/client";
 
 export default function StaffProfilePage() {
+  const router = useRouter();
+
   const me = useMe();
   const users = useStaffUsers();
+  const logout = useLogout();
+
+  const handleLogout = () => {
+    logout.mutate(undefined, {
+      onSettled: () => {
+        clearSession();
+        router.replace("/login");
+      },
+    });
+  };
 
   if (users.isLoading) {
     return (
@@ -28,7 +42,24 @@ export default function StaffProfilePage() {
   if (users.isError) {
     return (
       <Stack className="gap-8">
-        <PageTitle className="text-3xl">Profile</PageTitle>
+        <div className="flex items-start justify-between gap-4">
+          <PageTitle className="text-3xl">Profile</PageTitle>
+
+          <Button
+            variant="danger"
+            onPress={handleLogout}
+            isDisabled={logout.isPending}
+          >
+            {logout.isPending ? (
+              <>
+                <Spinner size="sm" aria-label="Signing out" />
+                Signing out...
+              </>
+            ) : (
+              "Sign out"
+            )}
+          </Button>
+        </div>
 
         <Card>
           <Card.Header>
@@ -45,15 +76,32 @@ export default function StaffProfilePage() {
   return (
     <Stack className="gap-8">
       {/* Staff profile */}
-      <Stack className="gap-2">
-        <PageTitle className="text-3xl">
-          Profile
-        </PageTitle>
+      <div className="flex items-start justify-between gap-4">
+        <Stack className="gap-2">
+          <PageTitle className="text-3xl">
+            Profile
+          </PageTitle>
 
-        <BodyText color="muted">
-          Manage your staff profile.
-        </BodyText>
-      </Stack>
+          <BodyText color="muted">
+            Manage your staff profile.
+          </BodyText>
+        </Stack>
+
+        <Button
+          variant="danger"
+          onPress={handleLogout}
+          isDisabled={logout.isPending}
+        >
+          {logout.isPending ? (
+            <>
+              <Spinner size="sm" aria-label="Signing out" />
+              Signing out...
+            </>
+          ) : (
+            "Sign out"
+          )}
+        </Button>
+      </div>
 
       <Card>
         <Card.Header>

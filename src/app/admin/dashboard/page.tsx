@@ -1,12 +1,14 @@
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Card,
   Input,
   Spinner,
 } from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 import {
   Stack,
@@ -22,9 +24,20 @@ import {
   useCreateStaff,
 } from "@/lib/api/admin";
 
+import {
+  useLogout,
+} from "@/lib/api/auth";
+
+import {
+  clearSession,
+} from "@/lib/api/client";
+
 export default function AdminStaffPage() {
+  const router = useRouter();
+
   const users = useAdminUsers();
   const createStaff = useCreateStaff();
+  const logout = useLogout();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -36,28 +49,37 @@ export default function AdminStaffPage() {
   const [errorMessage, setErrorMessage] =
     useState("");
 
-  useEffect(() => {
-    if (createStaff.isSuccess) {
-      users.refetch();
-    }
-  }, [createStaff.isSuccess]);
+  const handleLogout = () => {
+    logout.mutate(undefined, {
+      onSettled: () => {
+        clearSession();
+        router.replace("/login");
+      },
+    });
+  };
 
   const handleCreateStaff = () => {
     setSuccessMessage("");
     setErrorMessage("");
 
     if (!name.trim()) {
-      setErrorMessage("Please enter the staff member's name.");
+      setErrorMessage(
+        "Please enter the staff member's name.",
+      );
       return;
     }
 
     if (!email.trim()) {
-      setErrorMessage("Please enter the staff member's email.");
+      setErrorMessage(
+        "Please enter the staff member's email.",
+      );
       return;
     }
 
     if (!password) {
-      setErrorMessage("Please enter a password.");
+      setErrorMessage(
+        "Please enter a password.",
+      );
       return;
     }
 
@@ -83,6 +105,8 @@ export default function AdminStaffPage() {
           setSuccessMessage(
             "Staff account created successfully.",
           );
+
+          users.refetch();
         },
 
         onError: (error) => {
@@ -103,16 +127,36 @@ export default function AdminStaffPage() {
 
   return (
     <Stack className="gap-8">
-      {/* Page header */}
-      <Stack className="gap-2">
-        <PageTitle className="text-3xl">
-        Admin Dashboard  
-        </PageTitle>
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4">
+        <Stack className="gap-2">
+          <PageTitle className="text-3xl">
+            Admin Dashboard
+          </PageTitle>
 
-        <BodyText color="muted">
-          Create and manage staff accounts.
-        </BodyText>
-      </Stack>
+          <BodyText color="muted">
+            Create and manage staff accounts.
+          </BodyText>
+        </Stack>
+
+        <Button
+          variant="danger"
+          onPress={handleLogout}
+          isDisabled={logout.isPending}
+        >
+          {logout.isPending ? (
+            <>
+              <Spinner
+                size="sm"
+                aria-label="Signing out"
+              />
+              Signing out...
+            </>
+          ) : (
+            "Sign out"
+          )}
+        </Button>
+      </div>
 
       {/* Create staff */}
       <Card>
@@ -145,6 +189,7 @@ export default function AdminStaffPage() {
                 <label className="text-sm font-medium text-foreground">
                   Full Name
                 </label>
+
                 <Input
                   aria-label="Full Name"
                   placeholder="Enter staff name"
@@ -159,6 +204,7 @@ export default function AdminStaffPage() {
                 <label className="text-sm font-medium text-foreground">
                   Email
                 </label>
+
                 <Input
                   aria-label="Email"
                   type="email"
@@ -175,6 +221,7 @@ export default function AdminStaffPage() {
               <label className="text-sm font-medium text-foreground">
                 Password
               </label>
+
               <Input
                 aria-label="Password"
                 type="password"
@@ -214,7 +261,7 @@ export default function AdminStaffPage() {
         </Card.Content>
       </Card>
 
-      
+      {/* Staff accounts */}
       <Card>
         <Card.Header>
           <Card.Title>
@@ -303,3 +350,4 @@ export default function AdminStaffPage() {
     </Stack>
   );
 }
+
