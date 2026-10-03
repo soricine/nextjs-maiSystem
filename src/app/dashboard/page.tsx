@@ -36,7 +36,12 @@ export default function DashboardPage() {
             show up here.
           </BodyText>
         </Stack>
-
+    <Button
+  variant="primary"
+  onPress={() => router.push("#")}
+>
+  Edit Profile
+</Button>
         <Button
           variant="danger"
           onPress={handleLogout}
