@@ -1,180 +1,234 @@
 "use client";
 
-import { Card, Spinner } from "@heroui/react";
+import { useEffect, useState } from "react";
+import {
+  Button,
+  Card,
+  Input,
+  Spinner,
+} from "@heroui/react";
 
-import { Stack } from "@/components/ui/layout";
-import { BodyText, PageTitle } from "@/components/ui/typography";
-import { useMe } from "@/lib/api/auth";
-import { useAdminUsers } from "@/lib/api/admin";
+import {
+  Stack,
+} from "@/components/ui/layout";
 
-export default function DashboardPage() {
-  const me = useMe();
+import {
+  BodyText,
+  PageTitle,
+} from "@/components/ui/typography";
+
+import {
+  useAdminUsers,
+  useCreateStaff,
+} from "@/lib/api/admin";
+
+export default function AdminStaffPage() {
   const users = useAdminUsers();
+  const createStaff = useCreateStaff();
 
-  if (me.isLoading || users.isLoading) {
-    return (
-      <Stack className="gap-8">
-        <Stack className="gap-2">
-          <PageTitle className="text-3xl">
-            Welcome admin
-          </PageTitle>
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-          <BodyText color="muted">
-            Manage your website, users, staff, posts, and media.
-          </BodyText>
-        </Stack>
+  const [successMessage, setSuccessMessage] =
+    useState("");
 
-        <Card>
-          <Card.Content className="flex justify-center py-12">
-            <Spinner
-              size="lg"
-              aria-label="Loading users"
-            />
-          </Card.Content>
-        </Card>
-      </Stack>
+  const [errorMessage, setErrorMessage] =
+    useState("");
+
+  useEffect(() => {
+    if (createStaff.isSuccess) {
+      users.refetch();
+    }
+  }, [createStaff.isSuccess]);
+
+  const handleCreateStaff = () => {
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    if (!name.trim()) {
+      setErrorMessage("Please enter the staff member's name.");
+      return;
+    }
+
+    if (!email.trim()) {
+      setErrorMessage("Please enter the staff member's email.");
+      return;
+    }
+
+    if (!password) {
+      setErrorMessage("Please enter a password.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setErrorMessage(
+        "Password must be at least 8 characters.",
+      );
+      return;
+    }
+
+    createStaff.mutate(
+      {
+        name: name.trim(),
+        email: email.trim(),
+        password,
+      },
+      {
+        onSuccess: () => {
+          setName("");
+          setEmail("");
+          setPassword("");
+
+          setSuccessMessage(
+            "Staff account created successfully.",
+          );
+        },
+
+        onError: (error) => {
+          setErrorMessage(
+            error instanceof Error
+              ? error.message
+              : "Failed to create staff account.",
+          );
+        },
+      },
     );
-  }
+  };
 
-  if (me.isError) {
-    return (
-      <Card>
-        <Card.Header>
-          <Card.Title>
-            Unable to load your account
-          </Card.Title>
-
-          <Card.Description>
-            Your session could not be loaded.
-          </Card.Description>
-        </Card.Header>
-      </Card>
-    );
-  }
-
-  if (users.isError) {
-    return (
-      <Card>
-        <Card.Header>
-          <Card.Title>
-            Unable to load users
-          </Card.Title>
-
-          <Card.Description>
-            Something went wrong while loading the accounts.
-          </Card.Description>
-        </Card.Header>
-      </Card>
-    );
-  }
-
-  const allUsers = users.data?.users ?? [];
-
-  const staffCount = allUsers.filter(
-    (user) => user.role === "STAFF",
-  ).length;
-
-  const adminCount = allUsers.filter(
-    (user) => user.role === "ADMIN",
-  ).length;
-
-  const customerCount = allUsers.filter(
-    (user) =>
-      user.role === "CUSTOMER" ||
-      user.role === "USER",
-  ).length;
+  const staffUsers =
+    users.data?.users.filter(
+      (user) => user.role === "STAFF",
+    ) ?? [];
 
   return (
     <Stack className="gap-8">
+      {/* Page header */}
       <Stack className="gap-2">
         <PageTitle className="text-3xl">
-          Welcome admin{me.data ? `, ${me.data.name}` : ""}
+          Staff
         </PageTitle>
 
         <BodyText color="muted">
-          Manage your website, users, staff, posts, and media.
+          Create and manage staff accounts.
         </BodyText>
       </Stack>
 
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <Card.Header>
-            <Card.Title>Total Accounts</Card.Title>
-            <Card.Description>
-              All accounts
-            </Card.Description>
-          </Card.Header>
-
-          <Card.Content>
-            <p className="text-3xl font-semibold">
-              {allUsers.length}
-            </p>
-          </Card.Content>
-        </Card>
-
-        <Card>
-          <Card.Header>
-            <Card.Title>Customers</Card.Title>
-            <Card.Description>
-              Regular accounts
-            </Card.Description>
-          </Card.Header>
-
-          <Card.Content>
-            <p className="text-3xl font-semibold">
-              {customerCount}
-            </p>
-          </Card.Content>
-        </Card>
-
-        <Card>
-          <Card.Header>
-            <Card.Title>Staff</Card.Title>
-            <Card.Description>
-              Staff accounts
-            </Card.Description>
-          </Card.Header>
-
-          <Card.Content>
-            <p className="text-3xl font-semibold">
-              {staffCount}
-            </p>
-          </Card.Content>
-        </Card>
-
-        <Card>
-          <Card.Header>
-            <Card.Title>Admins</Card.Title>
-            <Card.Description>
-              Administrator accounts
-            </Card.Description>
-          </Card.Header>
-
-          <Card.Content>
-            <p className="text-3xl font-semibold">
-              {adminCount}
-            </p>
-          </Card.Content>
-        </Card>
-      </div>
-
+      {/* Create staff */}
       <Card>
         <Card.Header>
           <Card.Title>
-            All Accounts
+            Create Staff Account
           </Card.Title>
 
           <Card.Description>
-            Every account registered in the system,
-            including its role.
+            Create a new account with the STAFF role.
           </Card.Description>
         </Card.Header>
 
         <Card.Content>
-          {allUsers.length === 0 ? (
+          <Stack className="gap-5">
+            {successMessage && (
+              <div className="rounded-md border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm">
+                {successMessage}
+              </div>
+            )}
+
+            {errorMessage && (
+              <div className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm">
+                {errorMessage}
+              </div>
+            )}
+
+            <div className="grid gap-5 md:grid-cols-2">
+              <Input
+                label="Full Name"
+                placeholder="Enter staff name"
+                value={name}
+                onChange={(event) =>
+                  setName(event.target.value)
+                }
+              />
+
+              <Input
+                label="Email"
+                type="email"
+                placeholder="staff@example.com"
+                value={email}
+                onChange={(event) =>
+                  setEmail(event.target.value)
+                }
+              />
+            </div>
+
+            <Input
+              label="Password"
+              type="password"
+              placeholder="Enter initial password"
+              value={password}
+              onChange={(event) =>
+                setPassword(event.target.value)
+              }
+            />
+
+            <BodyText color="muted">
+              The password must contain at least 8
+              characters.
+            </BodyText>
+
+            <div>
+              <Button
+                variant="primary"
+                onPress={handleCreateStaff}
+                isDisabled={createStaff.isPending}
+              >
+                {createStaff.isPending ? (
+                  <>
+                    <Spinner
+                      size="sm"
+                      aria-label="Creating staff"
+                    />
+                    Creating...
+                  </>
+                ) : (
+                  "Create Staff Account"
+                )}
+              </Button>
+            </div>
+          </Stack>
+        </Card.Content>
+      </Card>
+
+      {/* Staff list */}
+      <Card>
+        <Card.Header>
+          <Card.Title>
+            Staff Accounts
+          </Card.Title>
+
+          <Card.Description>
+            Accounts with the STAFF role.
+          </Card.Description>
+        </Card.Header>
+
+        <Card.Content>
+          {users.isLoading ? (
+            <div className="flex justify-center py-12">
+              <Spinner
+                size="lg"
+                aria-label="Loading staff"
+              />
+            </div>
+          ) : users.isError ? (
             <div className="py-8 text-center">
               <BodyText color="muted">
-                No accounts found.
+                Unable to load staff accounts.
+              </BodyText>
+            </div>
+          ) : staffUsers.length === 0 ? (
+            <div className="py-8 text-center">
+              <BodyText color="muted">
+                No staff accounts found.
               </BodyText>
             </div>
           ) : (
@@ -201,26 +255,26 @@ export default function DashboardPage() {
                 </thead>
 
                 <tbody>
-                  {allUsers.map((user) => (
+                  {staffUsers.map((staff) => (
                     <tr
-                      key={user.id}
+                      key={staff.id}
                       className="border-b border-border last:border-0"
                     >
                       <td className="px-4 py-3 font-medium">
-                        {user.name}
+                        {staff.name}
                       </td>
 
                       <td className="px-4 py-3">
-                        {user.email}
+                        {staff.email}
                       </td>
 
                       <td className="px-4 py-3 font-medium">
-                        {user.role}
+                        {staff.role}
                       </td>
 
                       <td className="px-4 py-3 text-muted-foreground">
                         {new Date(
-                          user.createdAt,
+                          staff.createdAt,
                         ).toLocaleDateString()}
                       </td>
                     </tr>
