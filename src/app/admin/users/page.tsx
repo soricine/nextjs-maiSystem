@@ -1,26 +1,25 @@
+
 "use client";
 
 import { Card, Spinner } from "@heroui/react";
 
 import { Stack } from "@/components/ui/layout";
 import { BodyText, PageTitle } from "@/components/ui/typography";
-import { useMe } from "@/lib/api/auth";
 import { useAdminUsers } from "@/lib/api/admin";
 
-export default function DashboardPage() {
-  const me = useMe();
+export default function AdminUsersPage() {
   const users = useAdminUsers();
 
-  if (me.isLoading || users.isLoading) {
+  if (users.isLoading) {
     return (
       <Stack className="gap-8">
         <Stack className="gap-2">
           <PageTitle className="text-3xl">
-            Welcome admin
+            Users
           </PageTitle>
 
           <BodyText color="muted">
-            Manage your website, users, staff, posts, and media.
+            View all accounts registered in the system.
           </BodyText>
         </Stack>
 
@@ -33,22 +32,6 @@ export default function DashboardPage() {
           </Card.Content>
         </Card>
       </Stack>
-    );
-  }
-
-  if (me.isError) {
-    return (
-      <Card>
-        <Card.Header>
-          <Card.Title>
-            Unable to load your account
-          </Card.Title>
-
-          <Card.Description>
-            Your session could not be loaded.
-          </Card.Description>
-        </Card.Header>
-      </Card>
     );
   }
 
@@ -70,93 +53,17 @@ export default function DashboardPage() {
 
   const allUsers = users.data?.users ?? [];
 
-  const staffCount = allUsers.filter(
-    (user) => user.role === "STAFF",
-  ).length;
-
-  const adminCount = allUsers.filter(
-    (user) => user.role === "ADMIN",
-  ).length;
-
-  const customerCount = allUsers.filter(
-    (user) =>
-      user.role === "CUSTOMER" ||
-      user.role === "USER",
-  ).length;
-
   return (
     <Stack className="gap-8">
       <Stack className="gap-2">
         <PageTitle className="text-3xl">
-          Welcome admin{me.data ? `, ${me.data.name}` : ""}
+          Users
         </PageTitle>
 
         <BodyText color="muted">
-          Manage your website, users, staff, posts, and media.
+          All accounts registered in the system.
         </BodyText>
       </Stack>
-
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <Card.Header>
-            <Card.Title>Total Accounts</Card.Title>
-            <Card.Description>
-              All accounts
-            </Card.Description>
-          </Card.Header>
-
-          <Card.Content>
-            <p className="text-3xl font-semibold">
-              {allUsers.length}
-            </p>
-          </Card.Content>
-        </Card>
-
-        <Card>
-          <Card.Header>
-            <Card.Title>Customers</Card.Title>
-            <Card.Description>
-              Regular accounts
-            </Card.Description>
-          </Card.Header>
-
-          <Card.Content>
-            <p className="text-3xl font-semibold">
-              {customerCount}
-            </p>
-          </Card.Content>
-        </Card>
-
-        <Card>
-          <Card.Header>
-            <Card.Title>Staff</Card.Title>
-            <Card.Description>
-              Staff accounts
-            </Card.Description>
-          </Card.Header>
-
-          <Card.Content>
-            <p className="text-3xl font-semibold">
-              {staffCount}
-            </p>
-          </Card.Content>
-        </Card>
-
-        <Card>
-          <Card.Header>
-            <Card.Title>Admins</Card.Title>
-            <Card.Description>
-              Administrator accounts
-            </Card.Description>
-          </Card.Header>
-
-          <Card.Content>
-            <p className="text-3xl font-semibold">
-              {adminCount}
-            </p>
-          </Card.Content>
-        </Card>
-      </div>
 
       <Card>
         <Card.Header>
@@ -165,8 +72,7 @@ export default function DashboardPage() {
           </Card.Title>
 
           <Card.Description>
-            Every account registered in the system,
-            including its role.
+            Customers, staff, and administrators.
           </Card.Description>
         </Card.Header>
 
@@ -234,3 +140,4 @@ export default function DashboardPage() {
     </Stack>
   );
 }
+
