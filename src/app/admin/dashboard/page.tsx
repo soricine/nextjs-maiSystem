@@ -106,7 +106,7 @@ export default function AdminStaffPage() {
       {/* Page header */}
       <Stack className="gap-2">
         <PageTitle className="text-3xl">
-          Staff
+        Admin Dashboard  
         </PageTitle>
 
         <BodyText color="muted">
@@ -141,35 +141,50 @@ export default function AdminStaffPage() {
             )}
 
             <div className="grid gap-5 md:grid-cols-2">
-              <Input
-                label="Full Name"
-                placeholder="Enter staff name"
-                value={name}
-                onChange={(event) =>
-                  setName(event.target.value)
-                }
-              />
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">
+                  Full Name
+                </label>
+                <Input
+                  aria-label="Full Name"
+                  placeholder="Enter staff name"
+                  value={name}
+                  onChange={(event) =>
+                    setName(event.target.value)
+                  }
+                />
+              </div>
 
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">
+                  Email
+                </label>
+                <Input
+                  aria-label="Email"
+                  type="email"
+                  placeholder="staff@example.com"
+                  value={email}
+                  onChange={(event) =>
+                    setEmail(event.target.value)
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">
+                Password
+              </label>
               <Input
-                label="Email"
-                type="email"
-                placeholder="staff@example.com"
-                value={email}
+                aria-label="Password"
+                type="password"
+                placeholder="Enter initial password"
+                value={password}
                 onChange={(event) =>
-                  setEmail(event.target.value)
+                  setPassword(event.target.value)
                 }
               />
             </div>
-
-            <Input
-              label="Password"
-              type="password"
-              placeholder="Enter initial password"
-              value={password}
-              onChange={(event) =>
-                setPassword(event.target.value)
-              }
-            />
 
             <BodyText color="muted">
               The password must contain at least 8
@@ -199,7 +214,7 @@ export default function AdminStaffPage() {
         </Card.Content>
       </Card>
 
-      {/* Staff list */}
+      
       <Card>
         <Card.Header>
           <Card.Title>
