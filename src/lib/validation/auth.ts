@@ -72,14 +72,63 @@ export const deleteAccountSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-// Front-end form variants that add a confirmation field. The API routes
-// use the base schemas above; the confirmation is purely client-side UX.
-export const signupFormSchema = registerSchema
-  .extend({ confirmPassword: z.string().min(1, "Confirm your password") })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+export const signupFormSchema = z
+  .object({
+    name: z
+      .string()
+      .min(2, "Name must be at least 2 characters."),
+
+    email: z
+      .string()
+      .email("Please enter a valid email address."),
+
+    address: z
+      .string()
+      .trim()
+      .min(1, "Address is required."),
+
+    zipCode: z
+      .string()
+      .trim()
+      .min(1, "ZIP / postal code is required."),
+
+    country: z
+      .string()
+      .trim()
+      .min(1, "Country is required."),
+
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters.")
+      .regex(/[A-Za-z]/, "Password must contain a letter.")
+      .regex(/[0-9]/, "Password must contain a number."),
+
+    confirmPassword: z.string(),
+  })
+  .refine(
+    (data) => data.password === data.confirmPassword,
+    {
+      message: "Passwords do not match.",
+      path: ["confirmPassword"],
+    },
+  );
+  export const updateAddressDetailsSchema = z.object({
+  zipCode: z
+    .string()
+    .trim()
+    .min(1, "ZIP / postal code is required.")
+    .max(20, "ZIP / postal code is too long."),
+
+  country: z
+    .string()
+    .trim()
+    .min(1, "Country is required.")
+    .max(100, "Country name is too long."),
+});
+
+export type UpdateAddressDetailsInput = z.infer<
+  typeof updateAddressDetailsSchema
+>;
 
 export const changePasswordFormSchema = changePasswordSchema
   .extend({

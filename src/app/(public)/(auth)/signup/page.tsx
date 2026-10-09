@@ -11,37 +11,71 @@ import {
   applyServerFieldErrors,
   generalErrorMessage,
 } from "@/components/ui/form";
-import { Row } from "@/components/ui/layout";
+import { Row, Stack } from "@/components/ui/layout";
 import { useRegister } from "@/lib/api/auth";
-import { signupFormSchema, type SignupFormInput } from "@/lib/validation/auth";
+import {
+  signupFormSchema,
+  type SignupFormInput,
+} from "@/lib/validation/auth";
 
-const FIELDS = ["name", "email", "password"];
+const FIELDS = [
+  "name",
+  "email",
+  "address",
+  "zipCode",
+  "country",
+  "password",
+];
 
 export default function SignupPage() {
   const router = useRouter();
   const signup = useRegister();
-  const { control, handleSubmit, formState, setError } =
-    useForm<SignupFormInput>({
-      resolver: zodResolver(signupFormSchema),
-      mode: "onChange",
-      defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
-    });
 
-  const onSubmit = handleSubmit(({ confirmPassword: _confirm, ...values }) =>
-    signup.mutate(values, {
-      onSuccess: () => router.push("/dashboard"),
-      onError: (error) => applyServerFieldErrors(error, setError, FIELDS),
-    }),
+  const {
+    control,
+    handleSubmit,
+    formState,
+    setError,
+  } = useForm<SignupFormInput>({
+    resolver: zodResolver(signupFormSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      address: "",
+      zipCode: "",
+      country: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const onSubmit = handleSubmit(
+    ({ confirmPassword: _confirm, ...values }) =>
+      signup.mutate(values, {
+        onSuccess: () => {
+          router.push("/dashboard");
+        },
+        onError: (error) => {
+          applyServerFieldErrors(
+            error,
+            setError,
+            FIELDS,
+          );
+        },
+      }),
   );
 
   return (
     <Card className="w-full">
       <Card.Header>
         <Card.Title>Create your account</Card.Title>
+
         <Card.Description>
           A mailbox for your physical mail, readable anywhere.
         </Card.Description>
       </Card.Header>
+
       <Card.Content>
         <Form
           validationBehavior="aria"
@@ -50,8 +84,12 @@ export default function SignupPage() {
         >
           <FormAlert
             status="danger"
-            message={generalErrorMessage(signup.error, FIELDS)}
+            message={generalErrorMessage(
+              signup.error,
+              FIELDS,
+            )}
           />
+
           <RhfTextField
             control={control}
             name="name"
@@ -59,6 +97,7 @@ export default function SignupPage() {
             autoComplete="name"
             autoFocus
           />
+
           <RhfTextField
             control={control}
             name="email"
@@ -66,6 +105,28 @@ export default function SignupPage() {
             type="email"
             autoComplete="email"
           />
+
+          <RhfTextField
+            control={control}
+            name="address"
+            label="Address"
+            autoComplete="street-address"
+          />
+
+          <RhfTextField
+            control={control}
+            name="zipCode"
+            label="ZIP / Postal code"
+            autoComplete="postal-code"
+          />
+
+          <RhfTextField
+            control={control}
+            name="country"
+            label="Country"
+            autoComplete="country-name"
+          />
+
           <RhfTextField
             control={control}
             name="password"
@@ -74,6 +135,7 @@ export default function SignupPage() {
             autoComplete="new-password"
             description="At least 8 characters, with a letter and a number."
           />
+
           <RhfTextField
             control={control}
             name="confirmPassword"
@@ -81,15 +143,21 @@ export default function SignupPage() {
             type="password"
             autoComplete="new-password"
           />
+
           <Button
             type="submit"
             variant="primary"
             fullWidth
-            isDisabled={!formState.isValid || signup.isPending}
+            isDisabled={
+              !formState.isValid || signup.isPending
+            }
             isPending={signup.isPending}
           >
-            {signup.isPending ? "Creating account…" : "Create account"}
+            {signup.isPending
+              ? "Creating account…"
+              : "Create account"}
           </Button>
+
           <Row className="justify-center">
             <Link href="/login" className="text-sm">
               Already have an account? Sign in

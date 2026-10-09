@@ -21,6 +21,9 @@ export function toPublicUser(user: User): PublicUser {
     name: user.name,
     email: user.email,
     role: user.role,
+    address: user.address,
+    zipCode: user.zipCode,
+    country: user.country,
     createdAt: user.createdAt.toISOString(),
   };
 }
