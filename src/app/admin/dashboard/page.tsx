@@ -263,6 +263,12 @@ export default function AdminStaffPage() {
 
       {/* Staff accounts */}
       <Card>
+        <Button
+  variant="primary"
+  onPress={() => router.push("/admin/staff/create")}
+>
+  Create Staff Account
+</Button>
         <Card.Header>
           <Card.Title>
             Staff Accounts
