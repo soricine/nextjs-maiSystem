@@ -25,10 +25,11 @@ export function toPublicUser(user: User): PublicUser {
     zipCode: user.zipCode,
     country: user.country,
     createdAt: user.createdAt.toISOString(),
+    profilePhotoUrl: user.profilePhotoUrl,
   };
 }
 
-// The full login payload: sanitized user + fresh token pair.
+
 export async function issueSession(user: User): Promise<AuthSession> {
   const [authToken, refreshToken] = await Promise.all([
     signAuthToken(user),
@@ -37,7 +38,7 @@ export async function issueSession(user: User): Promise<AuthSession> {
   return { user: toPublicUser(user), authToken, refreshToken };
 }
 
-// --- Refresh tokens -----------------------------------------------------
+
 
 export async function issueRefreshToken(userId: string): Promise<string> {
   const raw = randomBytes(48).toString("base64url");

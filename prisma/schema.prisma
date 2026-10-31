@@ -12,25 +12,25 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      String   @default("CUSTOMER")
+  id              String   @id @default(cuid())
+  name            String
+  email           String   @unique
+  password        String
+  role            String   @default("CUSTOMER")
 
-  address   String?
-  zipCode   String?
-  country   String?
+  address         String?
+  zipCode         String?
+  country         String?
+  profilePhotoUrl String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  refreshTokens  RefreshToken[]
-  passwordResets PasswordReset[]
+  refreshTokens   RefreshToken[]
+  passwordResets  PasswordReset[]
+  mailItems       MailItem[]
 }
 
-// Long-lived refresh tokens, stored hashed so a DB leak cannot be replayed.
-// A token is valid only while `revokedAt` is null and `expiresAt` is in the future.
 model RefreshToken {
   id        String    @id @default(cuid())
   tokenHash String    @unique
@@ -43,8 +43,7 @@ model RefreshToken {
   @@index([userId])
 }
 
-// One-time codes for the password-reset flow, stored hashed.
-// `attempts` guards against brute-forcing the 6-digit code.
+
 model PasswordReset {
   id         String    @id @default(cuid())
   userId     String
@@ -56,4 +55,14 @@ model PasswordReset {
   createdAt  DateTime  @default(now())
 
   @@index([userId])
+}
+model MailItem {
+  id        String   @id @default(cuid())
+  userId    String
+  label     String
+  photoUrl  String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }

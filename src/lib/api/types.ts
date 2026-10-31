@@ -10,6 +10,7 @@ export type PublicUser = {
   zipCode: string | null;
   country: string | null;
   createdAt: string;
+  profilePhotoUrl: string | null;
 };
 
 export type AuthSession = {

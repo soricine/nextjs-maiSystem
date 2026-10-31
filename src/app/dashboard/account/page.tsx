@@ -1,231 +1,223 @@
+
 "use client";
 
-import { AlertDialog, Button, Card, Form } from "@heroui/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button, Card, Spinner } from "@heroui/react";
 
-import {
-  FormAlert,
-  RhfTextField,
-  applyServerFieldErrors,
-  generalErrorMessage,
-} from "@/components/ui/form";
-import { Row, Stack } from "@/components/ui/layout";
+import { Stack } from "@/components/ui/layout";
 import { BodyText, PageTitle } from "@/components/ui/typography";
-import { useChangePassword, useDeleteAccount, useMe } from "@/lib/api/auth";
-import {
-  changePasswordFormSchema,
-  deleteAccountSchema,
-  type ChangePasswordFormInput,
-  type DeleteAccountInput,
-} from "@/lib/validation/auth";
+import { useMe } from "@/lib/api/auth";
+import { apiFetch } from "@/lib/api/client";
+
+type MailItem = {
+  id: string;
+  label: string;
+  photoUrl: string;
+  createdAt: string;
+};
 
 export default function AccountPage() {
+  const queryClient = useQueryClient();
   const me = useMe();
+
+  const letters = useQuery({
+    queryKey: ["mail-items"],
+    queryFn: () =>
+      apiFetch<{ mailItems: MailItem[] }>("/api/mail-items", {
+        auth: true,
+      }),
+    enabled: Boolean(me.data),
+    retry: false,
+  });
+
+  const deleteLetter = useMutation({
+    mutationFn: (letterId: string) =>
+      apiFetch<{ success: boolean }>(
+        `/api/mail-items/${encodeURIComponent(letterId)}`,
+        {
+          method: "DELETE",
+          auth: true,
+        },
+      ),
+
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["mail-items"],
+      });
+    },
+  });
+
+  if (me.isLoading) {
+    return (
+      <div className="flex min-h-[300px] items-center justify-center">
+        <Spinner size="lg" aria-label="Loading account" />
+      </div>
+    );
+  }
+
+  if (me.isError || !me.data) {
+    return (
+      <Stack className="gap-2">
+        <PageTitle className="text-3xl">Account</PageTitle>
+        <BodyText color="muted">
+          Unable to load your account information.
+        </BodyText>
+      </Stack>
+    );
+  }
+
+  const mailItems = letters.data?.mailItems ?? [];
 
   return (
     <Stack className="gap-8">
       <Stack className="gap-2">
-        <PageTitle className="text-3xl">Account</PageTitle>
+        <PageTitle className="text-3xl">My account</PageTitle>
         <BodyText color="muted">
-          Signed in as {me.data?.email}. Manage how you access your mailbox.
+          View your account information and uploaded letters.
         </BodyText>
       </Stack>
-      <ChangePasswordCard />
-      <DeleteAccountCard />
-    </Stack>
-  );
-}
 
-const CHANGE_FIELDS = ["currentPassword", "newPassword"];
+      <Card>
+        <Card.Header>
+          <Card.Title>My letters</Card.Title>
+          <Card.Description>
+            View or delete the letter photos uploaded to your account.
+          </Card.Description>
+        </Card.Header>
 
-function ChangePasswordCard() {
-  const changePassword = useChangePassword();
-  const { control, handleSubmit, formState, reset, setError } =
-    useForm<ChangePasswordFormInput>({
-      resolver: zodResolver(changePasswordFormSchema),
-      mode: "onChange",
-      defaultValues: {
-        currentPassword: "",
-        newPassword: "",
-        confirmNewPassword: "",
-      },
-    });
+        <Card.Content>
+          {letters.isLoading ? (
+            <div className="flex justify-center p-6">
+              <Spinner size="lg" aria-label="Loading letters" />
+            </div>
+          ) : letters.isError ? (
+            <Stack className="gap-3">
+              <BodyText color="muted">
+                Unable to load your letters. Please try again.
+              </BodyText>
+              <div>
+                <Button
+                  variant="outline"
+                  onPress={() => letters.refetch()}
+                  isDisabled={letters.isFetching}
+                >
+                  {letters.isFetching ? "Loading..." : "Retry"}
+                </Button>
+              </div>
+            </Stack>
+          ) : mailItems.length === 0 ? (
+            <BodyText color="muted">
+              No letters have been uploaded to your account yet.
+            </BodyText>
+          ) : (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {mailItems.map((letter) => (
+                <article
+                  key={letter.id}
+                  className="overflow-hidden rounded-lg border border-default-200"
+                >
+                  <img
+                    src={letter.photoUrl}
+                    alt={letter.label}
+                    className="!block aspect-[4/3] !h-auto !w-full !rounded-none object-cover"
+                    loading="lazy"
+                  />
 
-  const onSubmit = handleSubmit(({ currentPassword, newPassword }) =>
-    changePassword.mutate(
-      { currentPassword, newPassword },
-      {
-        onSuccess: () => reset(),
-        onError: (error) =>
-          applyServerFieldErrors(error, setError, CHANGE_FIELDS),
-      },
-    ),
-  );
+                  <div className="flex items-center justify-between gap-3 p-3">
+                    <div className="min-w-0">
+                      <h3 className="break-words font-semibold">
+                        {letter.label}
+                      </h3>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Received{" "}
+                        {new Date(letter.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
 
-  return (
-    <Card>
-      <Card.Header>
-        <Card.Title>Change password</Card.Title>
-        <Card.Description>
-          Changing your password signs you out on every other device.
-        </Card.Description>
-      </Card.Header>
-      <Card.Content>
-        <Form
-          validationBehavior="aria"
-          onSubmit={onSubmit}
-          className="flex max-w-md flex-col gap-4"
-        >
-          <FormAlert
-            status="success"
-            message={
-              changePassword.isSuccess
-                ? "Password updated. Your other devices were signed out."
-                : null
-            }
-          />
-          <FormAlert
-            status="danger"
-            message={generalErrorMessage(changePassword.error, CHANGE_FIELDS)}
-          />
-          <RhfTextField
-            control={control}
-            name="currentPassword"
-            label="Current password"
-            type="password"
-            autoComplete="current-password"
-          />
-          <RhfTextField
-            control={control}
-            name="newPassword"
-            label="New password"
-            type="password"
-            autoComplete="new-password"
-            description="At least 8 characters, with a letter and a number."
-          />
-          <RhfTextField
-            control={control}
-            name="confirmNewPassword"
-            label="Confirm new password"
-            type="password"
-            autoComplete="new-password"
-          />
-          <Row>
-            <Button
-              type="submit"
-              variant="primary"
-              isDisabled={!formState.isValid || changePassword.isPending}
-              isPending={changePassword.isPending}
-            >
-              {changePassword.isPending ? "Updating…" : "Update password"}
-            </Button>
-          </Row>
-        </Form>
-      </Card.Content>
-    </Card>
-  );
-}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      isDisabled={deleteLetter.isPending}
+                      onPress={() => {
+                        const confirmed = window.confirm(
+                          "Are you sure you want to permanently delete this letter photo?",
+                        );
 
-function DeleteAccountCard() {
-  const router = useRouter();
-  const deleteAccount = useDeleteAccount();
-  const { control, handleSubmit, formState, reset, setError } =
-    useForm<DeleteAccountInput>({
-      resolver: zodResolver(deleteAccountSchema),
-      mode: "onChange",
-      defaultValues: { password: "" },
-    });
-
-  const onConfirm = handleSubmit(({ password }) =>
-    deleteAccount.mutate(
-      { password },
-      {
-        onSuccess: () => router.push("/"),
-        onError: (error) =>
-          applyServerFieldErrors(error, setError, ["password"]),
-      },
-    ),
-  );
-
-  return (
-    <Card>
-      <Card.Header>
-        <Card.Title>Delete account</Card.Title>
-        <Card.Description>
-          Permanently deletes your account and signs you out everywhere. This
-          cannot be undone.
-        </Card.Description>
-      </Card.Header>
-      <Card.Content>
-        <AlertDialog
-          onOpenChange={(open) => {
-            if (!open) {
-              reset();
-              deleteAccount.reset();
-            }
-          }}
-        >
-          <Button variant="danger">Delete account…</Button>
-          <AlertDialog.Backdrop>
-            <AlertDialog.Container size="sm" placement="center">
-              <AlertDialog.Dialog>
-                {({ close }) => (
-                  <Form validationBehavior="aria" onSubmit={onConfirm}>
-                    <AlertDialog.Header>
-                      <AlertDialog.Icon status="danger" />
-                      <AlertDialog.Heading>
-                        Delete your account?
-                      </AlertDialog.Heading>
-                    </AlertDialog.Header>
-                    <AlertDialog.Body className="flex flex-col gap-4">
-                      <BodyText size="sm">
-                        Your mailbox and account details will be permanently
-                        removed. Enter your password to confirm.
-                      </BodyText>
-                      <FormAlert
-                        status="danger"
-                        message={generalErrorMessage(deleteAccount.error, [
-                          "password",
-                        ])}
-                      />
-                      <RhfTextField
-                        control={control}
-                        name="password"
-                        label="Password"
-                        type="password"
-                        autoComplete="current-password"
-                      />
-                    </AlertDialog.Body>
-                    <AlertDialog.Footer>
-                      <Button
-                        variant="tertiary"
-                        onPress={close}
-                        isDisabled={deleteAccount.isPending}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        type="submit"
-                        variant="danger"
-                        isDisabled={
-                          !formState.isValid || deleteAccount.isPending
+                        if (confirmed) {
+                          deleteLetter.mutate(letter.id);
                         }
-                        isPending={deleteAccount.isPending}
-                      >
-                        {deleteAccount.isPending
-                          ? "Deleting…"
-                          : "Delete forever"}
-                      </Button>
-                    </AlertDialog.Footer>
-                  </Form>
-                )}
-              </AlertDialog.Dialog>
-            </AlertDialog.Container>
-          </AlertDialog.Backdrop>
-        </AlertDialog>
-      </Card.Content>
-    </Card>
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {deleteLetter.isError && (
+            <p role="alert" className="mt-4 text-sm text-danger">
+              Unable to delete this letter photo. Please try again.
+            </p>
+          )}
+        </Card.Content>
+      </Card>
+
+      <Card>
+        <Card.Header>
+          <Card.Title>Account information</Card.Title>
+          <Card.Description>
+            Your personal account details.
+          </Card.Description>
+        </Card.Header>
+
+        <Card.Content>
+          <Stack className="gap-4">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Full name
+              </p>
+              <p>{me.data.name}</p>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Email
+              </p>
+              <p>{me.data.email}</p>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Address
+              </p>
+              <p>{me.data.address || "Not provided"}</p>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                ZIP / Postal code
+              </p>
+              <p>{me.data.zipCode || "Not provided"}</p>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Country
+              </p>
+              <p>{me.data.country || "Not provided"}</p>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Account type
+              </p>
+              <p>{me.data.role}</p>
+            </div>
+          </Stack>
+        </Card.Content>
+      </Card>
+    </Stack>
   );
 }

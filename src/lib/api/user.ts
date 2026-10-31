@@ -1,34 +1,24 @@
+
 import { useMutation } from "@tanstack/react-query";
 
 import { apiFetch } from "@/lib/api/client";
 import type { PublicUser } from "@/lib/api/types";
 import type { UpdateAddressDetailsInput } from "@/lib/validation/auth";
 
+// Update the user's name.
 export type UpdateMyProfileInput = {
   name: string;
 };
 
-async function updateMyProfile(
-  input: UpdateMyProfileInput,
-) {
-  const response = await fetch("/api/user/profile", {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
+async function updateMyProfile(input: UpdateMyProfileInput) {
+  return apiFetch<{ message: string; user: PublicUser }>(
+    "/api/user/profile",
+    {
+      method: "PATCH",
+      body: input,
+      auth: true,
     },
-    credentials: "include",
-    body: JSON.stringify(input),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(
-      data.message ?? "Failed to update profile",
-    );
-  }
-
-  return data;
+  );
 }
 
 export function useUpdateMyProfile() {
@@ -37,6 +27,7 @@ export function useUpdateMyProfile() {
   });
 }
 
+// Update the user's ZIP/postal code and country.
 export async function updateAddressDetails(
   input: UpdateAddressDetailsInput,
 ) {
@@ -56,31 +47,20 @@ export function useUpdateAddressDetails() {
   });
 }
 
+
 export type ChangeMyPasswordInput = {
   password: string;
 };
 
-async function changeMyPassword(
-  input: ChangeMyPasswordInput,
-) {
-  const response = await fetch("/api/user/profile/password", {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
+async function changeMyPassword(input: ChangeMyPasswordInput) {
+  return apiFetch<{ message: string }>(
+    "/api/user/profile/password",
+    {
+      method: "PATCH",
+      body: input,
+      auth: true,
     },
-    credentials: "include",
-    body: JSON.stringify(input),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(
-      data.message ?? "Failed to change password",
-    );
-  }
-
-  return data;
+  );
 }
 
 export function useChangeMyPassword() {

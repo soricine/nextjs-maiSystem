@@ -72,6 +72,7 @@ export async function verifyAuthToken(
   } catch {
     return null;
   }
+  
 }
 
 export async function verifyResetToken(
@@ -91,3 +92,4 @@ export async function verifyResetToken(
     return null;
   }
 }
+

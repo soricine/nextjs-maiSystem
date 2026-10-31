@@ -1,63 +1,27 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
-
 import { prisma } from "@/lib/db/prisma";
+import {
+  ApiRouteError,
+  handleApiError,
+  requireAuth,
+} from "@/lib/server/api";
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
   try {
-    const body = await request.json();
+    const session = await requireAuth(request);
 
-    const name = String(body.name ?? "").trim();
-    const email = String(body.email ?? "").trim().toLowerCase();
-    const password = String(body.password ?? "");
-
-    if (!name || !email || !password) {
-      return NextResponse.json(
-        {
-          message: "Name, email, and password are required.",
-        },
-        {
-          status: 400,
-        },
-      );
-    }
-
-    if (password.length < 8) {
-      return NextResponse.json(
-        {
-          message: "Password must be at least 8 characters.",
-        },
-        {
-          status: 400,
-        },
-      );
-    }
-
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        email,
-      },
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.sub },
+      select: { role: true },
     });
 
-    if (existingUser) {
-      return NextResponse.json(
-        {
-          message: "An account with this email already exists.",
-        },
-        {
-          status: 409,
-        },
-      );
+    if (currentUser?.role !== "ADMIN") {
+      throw new ApiRouteError(403, "Admin access required.");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    const staff = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-        role: "STAFF",
+    const users = await prisma.user.findMany({
+      where: {
+        role: { not: "ADMIN" },
       },
       select: {
         id: true,
@@ -66,26 +30,66 @@ export async function POST(request: Request) {
         role: true,
         createdAt: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
-    return NextResponse.json(
-      {
-        staff,
-      },
-      {
-        status: 201,
-      },
-    );
+    return NextResponse.json({ users });
   } catch (error) {
-    console.error("Failed to create staff:", error);
-
-    return NextResponse.json(
-      {
-        message: "Failed to create staff account.",
-      },
-      {
-        status: 500,
-      },
-    );
+    return handleApiError(error);
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const session = await requireAuth(request);
+
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.sub },
+      select: { role: true },
+    });
+
+    if (currentUser?.role !== "ADMIN") {
+      throw new ApiRouteError(403, "Admin access required.");
+    }
+
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("id");
+
+    if (!userId) {
+      throw new ApiRouteError(400, "User ID is required.");
+    }
+
+    const targetUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        role: true,
+      },
+    });
+
+    if (!targetUser) {
+      throw new ApiRouteError(404, "User not found.");
+    }
+
+    if (targetUser.role === "ADMIN") {
+      throw new ApiRouteError(
+        403,
+        "Administrator accounts cannot be deleted here.",
+      );
+    }
+
+    await prisma.user.delete({
+      where: { id: targetUser.id },
+    });
+
+    return NextResponse.json({
+      message: `User "${targetUser.name}" was deleted successfully.`,
+    });
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+

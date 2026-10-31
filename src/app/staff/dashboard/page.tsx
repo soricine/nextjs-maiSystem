@@ -7,6 +7,7 @@ import { Stack } from "@/components/ui/layout";
 import { BodyText, PageTitle } from "@/components/ui/typography";
 import { useMe, useLogout } from "@/lib/api/auth";
 import { useStaffUsers } from "@/lib/api/staff";
+import Link from "next/link";
 import { clearSession } from "@/lib/api/client";
 
 export default function StaffProfilePage() {
@@ -164,30 +165,41 @@ export default function StaffProfilePage() {
                 </thead>
 
                 <tbody>
-                  {users.data?.users.map((user) => (
-                    <tr
-                      key={user.id}
-                      className="border-b border-border last:border-0"
-                    >
-                      <td className="px-4 py-3">
-                        {user.name}
-                      </td>
+                  {users.data?.users.map((user) => {
+                    const customerSlug = user.name
+                      .toLowerCase()
+                      .trim()
+                      .replace(/[^a-z0-9]+/g, "-")
+                      .replace(/^-|-$/g, "");
 
-                      <td className="px-4 py-3">
-                        {user.email}
-                      </td>
+                    return (
+                      <tr
+                        key={user.id}
+                        className="border-b border-border last:border-0"
+                      >
+                        <td className="px-4 py-3 font-medium">
+                          {user.role === "CUSTOMER" ? (
+                            <Link
+                              href={`/staff/customers/${user.id}/edit`}
+                              className="text-primary hover:underline"
+                            >
+                              {user.name}
+                            </Link>
+                          ) : (
+                            user.name
+                          )}
+                        </td>
 
-                      <td className="px-4 py-3">
-                        {user.role}
-                      </td>
+                        <td className="px-4 py-3">{user.email}</td>
 
-                      <td className="px-4 py-3">
-                        {new Date(
-                          user.createdAt,
-                        ).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
+                        <td className="px-4 py-3">{user.role}</td>
+
+                        <td className="px-4 py-3">
+                          {new Date(user.createdAt).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

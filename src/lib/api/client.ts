@@ -1,10 +1,5 @@
 import type { ApiErrorBody, AuthSession } from "@/lib/api/types";
 
-// Thin fetch wrapper implementing the dual-JWT scheme from
-// docs/architecture.md: bearer auth token on every request, and on a 401
-// a single refresh-and-retry using the long-lived refresh token.
-// Components never call this directly — they use the TanStack Query
-// hooks in src/lib/api/auth.ts.
 
 const AUTH_TOKEN_KEY = "vm.authToken";
 const REFRESH_TOKEN_KEY = "vm.refreshToken";
@@ -52,19 +47,32 @@ type ApiFetchOptions = {
 
 async function rawFetch(path: string, options: ApiFetchOptions) {
   const headers: Record<string, string> = {};
-  if (options.body !== undefined) headers["Content-Type"] = "application/json";
+  const isFormData =
+    typeof FormData !== "undefined" && options.body instanceof FormData;
+
+  if (options.body !== undefined && !isFormData) {
+    headers["Content-Type"] = "application/json";
+  }
+
   if (options.auth) {
     const token = getAuthToken();
-    if (token) headers["Authorization"] = `Bearer ${token}`;
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
   }
+
   return fetch(path, {
     method: options.method ?? "GET",
     headers,
-    body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+    body:
+      options.body === undefined
+        ? undefined
+        : isFormData
+          ? (options.body as FormData)
+          : JSON.stringify(options.body),
   });
 }
 
-// Deduplicate concurrent refreshes so parallel 401s trigger one rotation.
 let refreshInFlight: Promise<boolean> | null = null;
 
 async function tryRefresh(): Promise<boolean> {

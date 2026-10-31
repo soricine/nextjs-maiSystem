@@ -22,6 +22,7 @@ export class ApiRouteError extends Error {
     fieldErrors?: Record<string, string[]>,
   ) {
     super(message);
+     this.name = "ApiRouteError";
     this.status = status;
     this.fieldErrors = fieldErrors;
   }
