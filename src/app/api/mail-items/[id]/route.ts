@@ -43,7 +43,7 @@ export async function DELETE(
       },
     });
 
-    
+    // Remove the image file only from the letter uploads directory.
     const uploadDirectory = path.resolve(
       process.cwd(),
       "public",

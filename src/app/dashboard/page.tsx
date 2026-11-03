@@ -200,13 +200,8 @@ export default function AccountPage() {
                     </div>
 
                     <Button
-                      color="danger"
-                      variant="flat"
+                      variant="danger-soft"
                       className="w-full"
-                      isLoading={
-                        deleteLetter.isPending &&
-                        deleteLetter.variables === letter.id
-                      }
                       isDisabled={deleteLetter.isPending}
                       onPress={() => {
                         const confirmed = window.confirm(
@@ -218,7 +213,15 @@ export default function AccountPage() {
                         }
                       }}
                     >
-                      Delete letter
+                      {deleteLetter.isPending &&
+                      deleteLetter.variables === letter.id ? (
+                        <>
+                          <Spinner size="sm" aria-label="Deleting letter" />
+                          Deleting...
+                        </>
+                      ) : (
+                        "Delete letter"
+                      )}
                     </Button>
                   </div>
                 </article>
@@ -227,7 +230,7 @@ export default function AccountPage() {
           )}
 
           {deleteLetter.isError && (
-            <BodyText color="danger">
+            <BodyText className="text-red-500">
               Unable to delete the letter. Please try again.
             </BodyText>
           )}
