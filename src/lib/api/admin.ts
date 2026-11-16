@@ -5,6 +5,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
+import { apiFetch } from "@/lib/api/client";
+
 export type AdminUser = {
   id: string;
   name: string;
@@ -23,46 +25,19 @@ type ApiResponse = {
   staff?: AdminUser;
 };
 
-async function readResponse<T>(response: Response): Promise<T> {
-  const text = await response.text();
-
-  let data: T | ApiResponse = {} as T;
-
-  if (text.trim()) {
-    try {
-      data = JSON.parse(text) as T;
-    } catch {
-      throw new Error(
-        `Invalid server response (HTTP ${response.status}).`,
-      );
-    }
-  }
-
-  if (!response.ok) {
-    const errorData = data as ApiResponse;
-
-    throw new Error(
-      errorData.error ??
-        errorData.message ??
-        `Request failed (HTTP ${response.status}).`,
-    );
-  }
-
-  return data as T;
-}
 
 async function fetchAdminUsers(): Promise<AdminUsersResponse> {
-  const response = await fetch("/api/admin/users", {
-    credentials: "include",
+  return apiFetch<AdminUsersResponse>("/api/admin/users", {
+    method: "GET",
+    auth: true,
   });
-
-  return readResponse<AdminUsersResponse>(response);
 }
 
 export function useAdminUsers() {
   return useQuery({
     queryKey: ["admin", "users"],
     queryFn: fetchAdminUsers,
+    retry: false,
   });
 }
 
@@ -76,19 +51,15 @@ export type CreateStaffResponse = {
   staff: AdminUser;
 };
 
+
 async function createStaff(
   input: CreateStaffInput,
 ): Promise<CreateStaffResponse> {
-  const response = await fetch("/api/admin/staff", {
+  return apiFetch<CreateStaffResponse>("/api/admin/staff", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify(input),
+    body: input,
+    auth: true,
   });
-
-  return readResponse<CreateStaffResponse>(response);
 }
 
 export function useCreateStaff() {
@@ -104,16 +75,17 @@ export function useCreateStaff() {
   });
 }
 
-async function deleteAdminUser(userId: string): Promise<ApiResponse> {
-  const response = await fetch(
+
+async function deleteAdminUser(
+  userId: string,
+): Promise<ApiResponse> {
+  return apiFetch<ApiResponse>(
     `/api/admin/users?id=${encodeURIComponent(userId)}`,
     {
       method: "DELETE",
-      credentials: "include",
+      auth: true,
     },
   );
-
-  return readResponse<ApiResponse>(response);
 }
 
 export function useDeleteAdminUser() {

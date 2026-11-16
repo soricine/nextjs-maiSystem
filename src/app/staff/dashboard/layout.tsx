@@ -70,7 +70,7 @@ export default function StaffLayout({
               variant="ghost"
               className="font-semibold"
             >
-              My CMS
+              My virtual mailbox
             </ButtonLink>
 
             <span className="text-sm text-muted-foreground">

@@ -66,7 +66,7 @@ export default function AdminLayout({
               variant="ghost"
               className="-ml-3 font-semibold"
             >
-              My CMS
+              My  virtual mailbox
             </ButtonLink>
 
             <span className="text-sm text-muted-foreground">

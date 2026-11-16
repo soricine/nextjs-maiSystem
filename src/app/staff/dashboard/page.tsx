@@ -132,7 +132,7 @@ export default function StaffProfilePage() {
           <Card.Title>Users</Card.Title>
 
           <Card.Description>
-            Users registered in the CMS.
+            Users registered in the virtual mailbox.
           </Card.Description>
         </Card.Header>
 
