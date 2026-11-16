@@ -54,7 +54,7 @@ export default function SignupPage() {
     ({ confirmPassword: _confirm, ...values }) =>
       signup.mutate(values, {
         onSuccess: () => {
-          router.push("/dashboard");
+          router.push("/inbox");
         },
         onError: (error) => {
           applyServerFieldErrors(

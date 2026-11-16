@@ -32,7 +32,7 @@ const onSubmit = handleSubmit((values) =>
       } else if (role === "STAFF") {
         router.push("/staff/dashboard");
       } else {
-        router.push("dashboard");
+        router.push("inbox");
       }
     },
   }),

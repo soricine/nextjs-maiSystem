@@ -9,8 +9,6 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await parseBody(request, loginSchema);
 
-    // Same error for unknown email and wrong password so the endpoint
-    // can't be used to probe which emails are registered.
     const user = await prisma.user.findUnique({
       where: { email },
     });

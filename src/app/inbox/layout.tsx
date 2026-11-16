@@ -69,10 +69,10 @@ export default function DashboardLayout({
               Virtual Mailbox
             </ButtonLink>
             <Nav className="flex items-center gap-1">
-              <ButtonLink href="/dashboard" variant="ghost" size="sm">
+              <ButtonLink href="/inbox" variant="ghost" size="sm">
                 Inbox
               </ButtonLink>
-              <ButtonLink href="/dashboard/account" variant="ghost" size="sm">
+              <ButtonLink href="/inbox/account" variant="ghost" size="sm">
                 Account
               </ButtonLink>
             </Nav>
@@ -85,7 +85,7 @@ export default function DashboardLayout({
                   if (key === "signout") signOut();
                 }}
               >
-                <Dropdown.Item id="account" href="/dashboard/account">
+                <Dropdown.Item id="account" href="/inbox/account">
                   Account settings
                 </Dropdown.Item>
                 <Dropdown.Item id="signout" variant="danger">

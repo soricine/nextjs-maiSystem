@@ -52,7 +52,7 @@ export default function EditAccountPage() {
     updateDetails.mutate(values, {
       onSuccess: async () => {
         await me.refetch();
-        router.push("/dashboard/account");
+        router.push("/inbox/account");
       },
     });
   });
@@ -74,7 +74,7 @@ export default function EditAccountPage() {
         </BodyText>
         <Button
           variant="outline"
-          onPress={() => router.push("/dashboard/account")}
+          onPress={() => router.push("/inbox/account")}
         >
           Back to Account
         </Button>
@@ -145,7 +145,7 @@ export default function EditAccountPage() {
               <Button
                 type="button"
                 variant="outline"
-                onPress={() => router.push("/dashboard/account")}
+                onPress={() => router.push("/inbox/account")}
               >
                 Cancel
               </Button>
