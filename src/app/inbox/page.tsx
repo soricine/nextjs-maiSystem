@@ -36,7 +36,7 @@ export default function AccountPage() {
     retry: false,
   });
 
-  // Delete a single letter.
+  
   const deleteLetter = useMutation({
     mutationFn: (id: string) =>
       apiFetch<{ message: string }>(
