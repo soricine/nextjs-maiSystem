@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -30,10 +31,9 @@ export default function StaffLayout({
   useEffect(() => {
     if (!hasSession()) {
       router.replace("/login");
-      return;
+    } else {
+      setCheckedSession(true);
     }
-
-    setCheckedSession(true);
   }, [router]);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function StaffLayout({
   if (!checkedSession || !me.data) {
     return (
       <Row className="min-h-dvh justify-center">
-        <Spinner size="lg" aria-label="Loading dashboard" />
+        <Spinner size="lg" aria-label="Loading staff dashboard" />
       </Row>
     );
   }
@@ -60,15 +60,15 @@ export default function StaffLayout({
     });
 
   return (
-    <Stack className="min-h-dvh bg-muted">
-      {/* Top WordPress-style admin bar */}
-      <Header className="h-14 border-b border-border bg-background">
-        <Container className="flex h-full items-center justify-between">
+    <Stack className="min-h-dvh bg-background">
+      {/* Top staff bar */}
+      <Header className="border-b border-border bg-background">
+        <Container className="flex h-14 items-center justify-between">
           <Row className="gap-6">
             <ButtonLink
               href="/staff/dashboard"
               variant="ghost"
-              className="font-semibold"
+              className="-ml-3 font-semibold"
             >
               My virtual mailbox
             </ButtonLink>
@@ -111,52 +111,50 @@ export default function StaffLayout({
         </Container>
       </Header>
 
-      <Row className="min-h-[calc(100dvh-3.5rem)]">
+      {/* Staff body */}
+      <Stack className="flex-1 md:flex-row">
         {/* Sidebar */}
-        <aside className="hidden w-64 shrink-0 border-r border-border bg-background md:block">
-          <Nav className="flex flex-col gap-1 p-4">
+        <aside className="w-full border-b border-border bg-muted/30 md:w-64 md:border-b-0 md:border-r">
+          <Container className="py-6 md:px-4">
+            <Stack className="gap-1">
+              <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Staff Workspace
+              </p>
 
-            <ButtonLink
-              href="/staff/dashboard"
-              variant="ghost"
-              className="justify-start"
-            >
-              Dashboard
-            </ButtonLink>
+              <ButtonLink
+                href="/staff/dashboard"
+                variant="ghost"
+                className="justify-start"
+              >
+                Dashboard
+              </ButtonLink>
 
-            <ButtonLink
-              href="/staff/users"
-              variant="ghost"
-              className="justify-start"
-            >
-              Users
-            </ButtonLink>
+              
 
-            <ButtonLink
-              href="/staff/posts"
-              variant="ghost"
-              className="justify-start"
-            >
-              Posts
-            </ButtonLink>
 
-            <ButtonLink
-              href="/staff/media"
-              variant="ghost"
-              className="justify-start"
-            >
-              Media
-            </ButtonLink>
+              <ButtonLink
+                href="/staff/media"
+                variant="ghost"
+                className="justify-start"
+              >
+                Media
+              </ButtonLink>
 
-            <ButtonLink
-              href="/staff/profile"
-              variant="ghost"
-              className="justify-start"
-            >
-              Profile
-            </ButtonLink>
+              <div className="my-4 border-t border-border" />
 
-          </Nav>
+              <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Account
+              </p>
+
+              <ButtonLink
+                href="/staff/profile"
+                variant="ghost"
+                className="justify-start"
+              >
+                Profile
+              </ButtonLink>
+            </Stack>
+          </Container>
         </aside>
 
         {/* Main content */}
@@ -165,7 +163,7 @@ export default function StaffLayout({
             {children}
           </Container>
         </Main>
-      </Row>
+      </Stack>
     </Stack>
   );
 }

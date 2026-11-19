@@ -87,7 +87,7 @@ export default function DashboardLayout({
               >
                 <Dropdown.Item id="account" href="/inbox/account">
                   Account settings
-                </Dropdown.Item>
+                </Dropdown.Item> 
                 <Dropdown.Item id="signout" variant="danger">
                   Sign out
                 </Dropdown.Item>
